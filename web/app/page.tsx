@@ -4,6 +4,7 @@ import { getTrackRecord, getLatestMemo } from '@/lib/memos'
 import TrackRecordStrip from '@/components/TrackRecordStrip'
 import MemoTable from '@/components/MemoTable'
 import VerdictBar from '@/components/memo/VerdictBar'
+import { HeroLogo } from '@/components/Logo'
 
 const PROBLEM = `Futarchic governance markets produce a flood of signal — on-chain transactions, developer commits, founder communications, community sentiment — but no structured analysis. Voters and traders have no institutional-quality research to anchor their positions. The result is thin markets, manipulation, and decisions that don't price information efficiently.
 
@@ -32,47 +33,66 @@ export default function LandingPage() {
   return (
     <div>
       {/* Hero */}
-      <section
-        className="border-b px-6 py-20"
-        style={{ borderColor: 'var(--border)' }}
-      >
-        <div className="mx-auto" style={{ maxWidth: 760 }}>
-          <div
-            className="mono mb-4 text-12 uppercase tracking-widest"
-            style={{ color: 'var(--accent)', letterSpacing: '0.1em' }}
-          >
-            Umia Analyst Agent · Research Memo System
+      <section className="px-6 py-24" style={{ borderBottom: '1px solid var(--border)' }}>
+        <div className="mx-auto" style={{ maxWidth: 780 }}>
+          {/* Hero logo */}
+          <div className="mb-8">
+            <HeroLogo />
           </div>
+
+          {/* Label */}
+          <div
+            className="mono mb-5 inline-flex items-center gap-2 rounded-full px-3 py-1 text-11 uppercase tracking-widest"
+            style={{
+              background: 'var(--accent-soft)',
+              color: 'var(--accent)',
+              border: '1px solid rgba(61,224,165,0.2)',
+              letterSpacing: '0.08em',
+            }}
+          >
+            <span
+              style={{
+                width: 6, height: 6, borderRadius: '50%',
+                background: 'var(--accent)', flexShrink: 0,
+                display: 'inline-block',
+              }}
+              className="live-dot"
+            />
+            Mochifi · Research Memo System
+          </div>
+
+          {/* Headline */}
           <h1
-            className="mb-4 font-semibold leading-tight tracking-tight"
-            style={{ color: 'var(--fg)', fontSize: 36, lineHeight: 1.15 }}
+            className="mb-5 leading-tight"
+            style={{ fontSize: 44, lineHeight: 1.1, letterSpacing: '-0.03em' }}
           >
-            Bloomberg Terminal for futarchic governance.
+            <span
+              style={{
+                backgroundImage: 'linear-gradient(90deg, #3DE0A5 0%, #60A5FA 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Bloomberg Terminal
+            </span>
+            <br />
+            <span style={{ color: 'var(--fg)' }}>for futarchic governance.</span>
           </h1>
-          <p
-            className="mb-8 text-15 leading-relaxed"
-            style={{ color: 'var(--fg-muted)', maxWidth: '58ch' }}
-          >
+
+          <p className="mb-8 text-15 leading-relaxed" style={{ color: 'var(--fg-muted)', maxWidth: '58ch' }}>
             An autonomous research analyst that reads every signal in a decision
             market, publishes its memo, and bets its own treasury on the outcome.
           </p>
+
           <div className="flex flex-wrap gap-3">
-            <Link
-              href="/memos"
-              className="inline-flex items-center gap-2 rounded px-5 py-2.5 text-14 font-medium transition-opacity hover:opacity-85"
-              style={{ background: 'var(--accent)', color: '#fff', textDecoration: 'none' }}
-            >
+            <Link href="/memos" className="btn-primary">
               View Track Record
               <ArrowRight size={14} />
             </Link>
             <Link
               href={latest ? `/memos/${latest.market_id}` : '/memos'}
-              className="inline-flex items-center gap-2 rounded border px-5 py-2.5 text-14 font-medium transition-opacity hover:opacity-80"
-              style={{
-                borderColor: 'var(--border)',
-                color: 'var(--fg-muted)',
-                textDecoration: 'none',
-              }}
+              className="btn-ghost"
             >
               Read latest memo
             </Link>
@@ -132,34 +152,27 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section
-        className="border-b px-6 py-16"
-        style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}
-      >
-        <div className="mx-auto" style={{ maxWidth: 900 }}>
-          <div
-            className="mono mb-8 text-11 uppercase tracking-widest"
-            style={{ color: 'var(--fg-faint)', letterSpacing: '0.08em' }}
-          >
+      <section className="px-6 py-16" style={{ borderBottom: '1px solid var(--border)' }}>
+        <div className="mx-auto" style={{ maxWidth: 960 }}>
+          <div className="mono mb-8 text-11 uppercase tracking-widest" style={{ color: 'var(--fg-faint)', letterSpacing: '0.08em' }}>
             How It Works
           </div>
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-4 gap-5">
             {HOW_IT_WORKS.map(([step, desc], i) => (
-              <div key={i} className="flex flex-col gap-3">
+              <div key={i} className="how-card">
                 <div
-                  className="mono text-12 font-semibold"
-                  style={{ color: 'var(--accent)' }}
+                  className="mono text-11 font-semibold"
+                  style={{
+                    color: 'var(--accent)',
+                    background: 'var(--accent-soft)',
+                    borderRadius: 99,
+                    padding: '2px 10px',
+                    display: 'inline-block',
+                    letterSpacing: '0.04em',
+                  }}
                 >
                   {step}
                 </div>
-                {i < HOW_IT_WORKS.length - 1 && (
-                  <div
-                    className="mono text-12 hidden"
-                    style={{ color: 'var(--fg-faint)' }}
-                  >
-                    →
-                  </div>
-                )}
                 <p className="text-13 leading-relaxed" style={{ color: 'var(--fg-muted)' }}>
                   {desc}
                 </p>
@@ -280,7 +293,7 @@ export default function LandingPage() {
           className="mono mx-auto flex flex-wrap gap-6 text-12"
           style={{ maxWidth: 880, color: 'var(--fg-faint)' }}
         >
-          <span>Umia Analyst Agent · v1.0</span>
+          <span>Mochifi · v1.0</span>
           <span>Built for Umia Protocol Hackathon 2026</span>
           <Link
             href="/memos"
