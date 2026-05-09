@@ -18,15 +18,16 @@ python-dotenv>=1.0.0
 
 # ── Signal ingestion (production mode) ───────────────────────────────────────
 # Uncomment when UMIA_ENV=production
-# apify-client>=1.7.0
+# apify-client>=1.7.0       # Telegram scraping via Apify SDK (X402 path uses requests directly)
 
-# ── Sentiment / HuggingFace Inference API ────────────────────────────────────
+# ── Grok X Search / OpenAI-compatible clients ────────────────────────────────
+# Used for Twitter signals (xAI Grok API) and optionally LLM_PROVIDER=openai
+openai>=1.0.0
+
+# ── HuggingFace sentiment (Inference API) ────────────────────────────────────
 # Remote inference only — no local model downloads, no GPU needed.
 # Set HF_TOKEN in .env (Read + Inference Providers permission).
-# requests is already listed above (used for HF API calls).
-
-# ── OpenAI (optional, only if LLM_PROVIDER=openai) ───────────────────────────
-# openai>=1.0.0
+# Demo mode returns deterministic mocks (no token needed).
 
 # ── Dev / testing ─────────────────────────────────────────────────────────────
 # pytest>=7.0.0

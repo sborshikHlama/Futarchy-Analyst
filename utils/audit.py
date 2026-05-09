@@ -4,8 +4,10 @@ Každý uzel pipeline volá _audit() pro zápis do immutable audit logu.
 """
 
 import hashlib
+import json
 import logging
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -65,6 +67,37 @@ def _audit(
 
     existing = state.get("audit_trail", []) or []
     return [*existing, event]
+
+
+_X402_LOG = Path(__file__).parent.parent / "data" / "x402_payments.jsonl"
+
+
+def append_event(event: dict) -> None:
+    """
+    Append a payment or system event to the persistent JSONL log.
+    File-based (not state-based) so it can be called outside the pipeline.
+    Creates the file and parent dirs if they don't exist.
+    """
+    _X402_LOG.parent.mkdir(parents=True, exist_ok=True)
+    event["timestamp"] = datetime.now(timezone.utc).isoformat()
+    with _X402_LOG.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(event) + "\n")
+    log.info(f"[AUDIT:x402] {event.get('event')} | market={event.get('market_id')} "
+             f"paid={event.get('paid')} protocol={event.get('protocol')}")
+
+
+def log_x402_payment(market_id: str, payment: dict, actor: str, item_count: int) -> None:
+    """Log Apify X402 payment event to immutable audit trail."""
+    append_event({
+        "event":          "apify_x402_payment",
+        "market_id":      market_id,
+        "actor":          actor,
+        "paid":           payment.get("paid", False),
+        "protocol":       payment.get("protocol", "unknown"),
+        "chain":          "Base" if payment.get("paid") else None,
+        "currency":       "USDC" if payment.get("paid") else None,
+        "items_received": item_count,
+    })
 
 
 def compute_prompt_hash(prompt: str) -> str:

@@ -11,7 +11,7 @@ Built for the **Umia Protocol Hackathon 2026** · "Best Agentic Venture" bounty.
 
 Umia Analyst Agent monitors decision markets (MetaDAO, Polymarket, Umia) and:
 
-1. **Ingests** signals from Telegram, Twitter, GitHub commit activity, and on-chain wallet flows
+1. **Ingests** signals from Telegram (Apify X402), News (Google Search), GitHub commit activity, and on-chain wallet flows
 2. **Classifies** each source as `verifiable / partial / manipulable` with weight caps
 3. **Synthesizes** a bull case and bear case, flagging manipulation attempts
 4. **Takes a position** — YES / NO / ABSTAIN — scaled by confidence (max 7% treasury)
@@ -23,26 +23,31 @@ Umia Analyst Agent monitors decision markets (MetaDAO, Polymarket, Umia) and:
 ## Architecture
 
 ```
-Signal Ingestion (Apify / GitHub / Etherscan)
+Signal Ingestion
+  ├── Apify X402  → Telegram posts   (manipulable 0.3)
+  ├── Apify X402  → News snippets    (partial 0.6)
+  ├── GitHub REST → Commit cadence   (verifiable 1.0)
+  └── Etherscan   → On-chain flows   (verifiable 1.0)
           │
-          ▼
-Phase 1: Source Classifier Agent (AI)
-          │  Classification Validator (DET)
+          ▼  gather_signals() → raw_signals{}
+Phase 1: HuggingFace Sentiment (cryptobert / finbert) — pre-compute scores
+          │  Source Classifier Agent (AI) — classifies + weights each source
+          │  Classification Validator (DET) — enforces weight caps
           │
           ▼
 Phase 2: Memo Context Builder (DET)
-          │  Synthesizer Agent (AI) — bull/bear cases
+          │  Synthesizer Agent (AI) — bull/bear cases with citations
           │
           ▼
-Phase 3: Position Agent (AI)
+Phase 3: Position Agent (AI) — YES / NO / ABSTAIN
           │  Self-Reviewer (AI) — adversarial check
-          │  Position Rules Engine (DET) — hard caps
+          │  Position Rules Engine (DET) — confidence + size hard caps
           │
           ▼
 Phase 4: Publish Node (DET) → data/markets/<id>/memo.json
           │
           ▼
-      Audit Trail (immutable, sha256 prompt hashes)
+      Audit Trail (immutable · sha256 prompt hashes · X402 payment log)
 ```
 
 **Skills registry** — every AI prompt is versioned in YAML (`skills/`) with a sha256 audit hash. Deterministic nodes are clearly marked `# DETERMINISTIC`.
@@ -87,12 +92,133 @@ Key variables:
 | `UMIA_ENV` | `demo` | `demo` = mock signals; `production` = live APIs |
 | `LLM_PROVIDER` | `anthropic` | `anthropic` or `openai` |
 | `ANTHROPIC_API_KEY` | — | Claude API key |
-| `APIFY_TOKEN` | — | Telegram + Twitter scraping (production only) |
+| `APIFY_TOKEN` | — | Telegram scraping — X402 (mcpc) → token fallback (production only) |
+| `GROK_API_KEY` | — | xAI Grok X Search for Twitter signals (production only) |
 | `GITHUB_TOKEN` | — | GitHub REST API (production only) |
 | `ETHERSCAN_API_KEY` | — | On-chain wallet activity (production only) |
 | `HF_TOKEN` | — | HuggingFace Inference API token (Read, Inference Providers only) |
 
 ---
+
+## Apify integration
+
+### What Apify does in this project
+
+Apify runs cloud-hosted scrapers ("Actors") so we never manage browser infrastructure ourselves. We use two Actors:
+
+| Actor | What it scrapes | Source class | Weight |
+|-------|----------------|--------------|--------|
+| `apify/telegram-scraper` | Channel posts (last 7 days) | manipulable | 0.3 |
+| `apify/google-search-scraper` | News snippets for a query | partial | 0.6 |
+
+Twitter/X was previously scraped via Apify (`apidojo~tweet-scraper`) but has been replaced by **Grok X Search** — see Task 1 below.
+
+---
+
+### X402 payment flow
+
+X402 is an HTTP micropayment protocol. Instead of a monthly API subscription, each Actor run is paid per-call in USDC on Base mainnet. The flow:
+
+```
+1. POST /v2/acts/{actor}/run-sync-get-dataset-items
+   + header: X-APIFY-PAYMENT-PROTOCOL: X402
+
+2. Apify responds 402 Payment Required
+   + header: PAYMENT-REQUIRED: <payment instruction>
+
+3. mcpc CLI signs the payment:
+   $ mcpc x402 sign "<PAYMENT-REQUIRED value>"
+   → returns PAYMENT-SIGNATURE
+
+4. Resend original POST
+   + header: PAYMENT-SIGNATURE: <signature>
+
+5. Apify runs Actor, returns JSON dataset items
+   Payment settles on Base (USDC, ~$0.001 per run)
+```
+
+Every payment is logged to `data/x402_payments.jsonl` (append-only, immutable).
+
+---
+
+### Payment fallback order
+
+```
+UMIA_ENV=demo        →  mock data, zero network calls (default)
+mcpc on PATH         →  X402 USDC payment on Base
+mcpc missing         →  APIFY_TOKEN bearer auth (classic Apify account)
+neither available    →  empty result, logs error
+```
+
+This means **demo always works** without any keys or CLI tools installed.
+
+---
+
+### Setup for production
+
+**Option A — X402 (hackathon track, preferred)**
+
+```bash
+# 1. Install mcpc CLI
+npm install -g @mcpc/cli        # or: brew install mcpc
+
+# 2. Create + fund a wallet
+mcpc wallet create
+mcpc wallet fund --chain base --amount 5   # 5 USDC ≈ ~5000 Actor runs
+
+# 3. Verify
+mcpc x402 info                 # should show wallet address + balance
+
+# 4. Set env
+UMIA_ENV=production            # in .env
+# APIFY_TOKEN= leave empty (X402 doesn't need it)
+```
+
+**Option B — Classic APIFY_TOKEN (fallback)**
+
+```bash
+# 1. Sign up at https://apify.com → free tier available
+# 2. Settings → Integrations → API token
+# 3. Set in .env:
+APIFY_TOKEN=apify_api_xxxx
+UMIA_ENV=production
+```
+
+---
+
+### What is connected right now
+
+| Component | Status | Notes |
+|-----------|--------|-------|
+| `utils/ingest/apify.py` | ✅ Done | X402 core: `scrape_telegram()` + `scrape_news()` |
+| `utils/ingest/__init__.py` `gather_signals()` | ✅ Done | Routes Telegram + News through `apify.py`, X402 payments logged |
+| Phase 1 extraction | ✅ Done | Calls `scrape_telegram` + `scrape_news` before sentiment + Claude |
+| X402 audit log | ✅ Done | `data/x402_payments.jsonl` — append-only JSONL |
+| `utils/ingest/apify_telegram.py` | ⚠️ Legacy | Kept as reference; no longer called by the pipeline |
+| Twitter / `apify_twitter.py` | ❌ Deprecated | Replaced by Grok X Search — not yet implemented |
+
+**One thing remaining:** Grok X Search (Twitter signals). Until implemented, `twitter_queries` in `MARKET_CONFIGS` are defined but skipped at runtime — no Twitter data is passed to Claude. All other Apify sources are fully wired.
+
+---
+
+### Checking payments
+
+```bash
+# See all X402 payment events
+cat data/x402_payments.jsonl | python -m json.tool
+
+# Filter to paid-only runs
+python -c "
+import json
+for line in open('data/x402_payments.jsonl'):
+    e = json.loads(line)
+    if e['paid']:
+        print(e['timestamp'], e['actor'], e['items_received'], 'items')
+"
+```
+
+---
+
 
 ## Signal sources & models
 
@@ -164,7 +290,7 @@ Binary market resolution:
 |-------|-----------|
 | Agent pipeline | LangGraph (multi-step, conditional routing) |
 | LLM | Claude Opus 4.7 (Anthropic) |
-| Signal ingestion | Apify (Telegram, Twitter) · GitHub REST API · Etherscan |
+| Signal ingestion | Apify (Telegram) · Grok X Search (Twitter) · GitHub REST API · Etherscan |
 | Sentiment models | HuggingFace Inference API (ElKulako/cryptobert · FinTwitBERT-sentiment · ProsusAI/finbert · cardiffnlp/twitter-roberta) |
 | Skills | YAML-versioned prompts with sha256 audit hashes |
 | Audit trail | Append-only, immutable, prompt-hashed |
