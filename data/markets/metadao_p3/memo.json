@@ -13,22 +13,26 @@
     "github_futarchy": {
       "class_": "verifiable",
       "weight": 0.72,
-      "reasoning": "Steady 8.4 commits/week for a 3-month-old protocol is strong for stage. Meteora LP integration PR is directly on-topic — team is executing the proposal deliverable before it passes."
+      "reasoning": "Steady 8.4 commits/week for a 3-month-old protocol is strong for stage. Meteora LP integration PR is directly on-topic — team is executing the proposal deliverable before it passes.",
+      "url": "https://github.com/metadaoproject/futarchy"
     },
     "onchain_treasury": {
       "class_": "verifiable",
       "weight": 0.88,
-      "reasoning": "Pre-positioned META in staging multisig and Meteora test transactions on Feb 10 are a clear operational signal. The team is ready to execute immediately on resolution."
+      "reasoning": "Pre-positioned META in staging multisig and Meteora test transactions on Feb 10 are a clear operational signal. The team is ready to execute immediately on resolution.",
+      "url": "https://app.themetadao.org/"
     },
     "telegram_metadao": {
       "class_": "manipulable",
       "weight": 0.18,
-      "reasoning": "Founder (proph3t) is publicly arguing AGAINST the proposal via this channel — the opposite of typical founder-channel manipulation. This reduces but does not eliminate the manipulable classification, as channel is still founder-controlled."
+      "reasoning": "Founder (proph3t) is publicly arguing AGAINST the proposal via this channel — the opposite of typical founder-channel manipulation. This reduces but does not eliminate the manipulable classification, as channel is still founder-controlled.",
+      "url": "https://t.me/metadaoproject"
     },
     "twitter_community": {
       "class_": "partial",
       "weight": 0.51,
-      "reasoning": "Community and independent traders citing on-chain evidence and GitHub corroborate the verifiable signals. Founder opposition publicly noted and priced in by commentators."
+      "reasoning": "Community and independent traders citing on-chain evidence and GitHub corroborate the verifiable signals. Founder opposition publicly noted and priced in by commentators.",
+      "url": "https://x.com/metaproph3t"
     }
   },
   "classification_attempts": 1,

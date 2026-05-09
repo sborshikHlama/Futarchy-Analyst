@@ -4,6 +4,7 @@ export interface SourceWeight {
   class_: SourceClass
   weight: number
   reasoning: string
+  url?: string
 }
 
 export interface Position {
