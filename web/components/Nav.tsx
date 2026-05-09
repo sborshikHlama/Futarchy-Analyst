@@ -29,7 +29,7 @@ export default function Nav() {
         style={{ maxWidth: 1200 }}
       >
         {/* Logo */}
-        <Link href="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+        <Link href="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, flexShrink: 0, whiteSpace: 'nowrap' }}>
           <NavLogo />
           <LogoBadge />
         </Link>

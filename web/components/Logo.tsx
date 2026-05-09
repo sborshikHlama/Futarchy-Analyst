@@ -59,7 +59,7 @@ export function HeroLogo() {
         alt="Mochifi"
         width={72}
         height={72}
-        style={{ borderRadius: 20, objectFit: 'cover', objectPosition: 'center top' }}
+        style={{ borderRadius: 20, objectFit: 'cover', objectPosition: 'center' }}
         priority
       />
     </div>
