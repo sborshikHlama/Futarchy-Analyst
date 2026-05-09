@@ -42,6 +42,19 @@ def source_classifier_agent(state: dict) -> dict:
                 "fallback_reason": "No raw signals to classify",
                 "audit_trail": audit}
 
+    from utils.sentiment import analyze_batch
+
+    telegram_posts = state.get("telegram_signals", [])
+    news_snippets  = state.get("news_signals", [])
+
+    telegram_sentiment = analyze_batch(telegram_posts, source_type="social")
+    news_sentiment     = analyze_batch(news_snippets,  source_type="news")
+
+    state = {**state, "sentiment": {
+        "telegram": telegram_sentiment,
+        "news":     news_sentiment,
+    }}
+
     skill = registry.get("classifier_skill")
     prompt = skill["prompt"]
     skill_version = skill["version"]

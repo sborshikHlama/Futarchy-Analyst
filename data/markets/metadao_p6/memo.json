@@ -56,6 +56,25 @@
       "Timing risk: The fail market’s resilience might be temporary or driven by short-term arbitrageurs rather than genuine consensus. If Hawkins or aligned actors inject additional capital closer to the proposal deadline, the pass market could flip, leaving the NO position exposed to losses."
     ]
   },
-  "outcome": null,
-  "audit_events": 7
+  "outcome": {
+    "resolved_side": "NO",
+    "pnl_pct": 3.0
+  },
+  "audit_events": 7,
+  "sentiment": {
+    "telegram": {
+      "score": 0.35,
+      "label": "bullish",
+      "confidence": 0.78,
+      "sample_size": 6,
+      "model": "ElKulako/cryptobert"
+    },
+    "news": {
+      "score": -0.1,
+      "label": "neutral",
+      "confidence": 0.65,
+      "sample_size": 0,
+      "model": "ProsusAI/finbert"
+    }
+  }
 }

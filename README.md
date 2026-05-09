@@ -90,6 +90,25 @@ Key variables:
 | `APIFY_TOKEN` | — | Telegram + Twitter scraping (production only) |
 | `GITHUB_TOKEN` | — | GitHub REST API (production only) |
 | `ETHERSCAN_API_KEY` | — | On-chain wallet activity (production only) |
+| `HF_TOKEN` | — | HuggingFace Inference API token (Read, Inference Providers only) |
+
+---
+
+## Signal sources & models
+
+| Signal | Source | Model / API | Weight class |
+|--------|--------|-------------|--------------|
+| Telegram posts | Apify telegram-scraper | ElKulako/cryptobert | manipulable 0.3 |
+| Financial tweets | Apify / Grok X Search | StephanAkkerman/FinTwitBERT-sentiment | manipulable 0.3 |
+| News snippets | Apify google-search-scraper | ProsusAI/finbert | partial 0.6 |
+| Twitter fallback | cardiffnlp/twitter-roberta | Used if Grok API unavailable | manipulable 0.3 |
+| GitHub commits | GitHub REST API | Deterministic | verifiable 1.0 |
+| On-chain flows | Etherscan API | Deterministic | verifiable 1.0 |
+| Market TWAP | Contract read (web3.py) | Deterministic | verifiable 1.0 |
+
+All HuggingFace models are called via **Inference API** — no local downloads, no GPU required.
+Setup: `HF_TOKEN=hf_xxx` in `.env` (Read token, Inference Providers permission only).
+Demo mode (`UMIA_ENV=demo`) uses deterministic mock scores — no API keys needed.
 
 ---
 
@@ -146,6 +165,7 @@ Binary market resolution:
 | Agent pipeline | LangGraph (multi-step, conditional routing) |
 | LLM | Claude Opus 4.7 (Anthropic) |
 | Signal ingestion | Apify (Telegram, Twitter) · GitHub REST API · Etherscan |
+| Sentiment models | HuggingFace Inference API (ElKulako/cryptobert · FinTwitBERT-sentiment · ProsusAI/finbert · cardiffnlp/twitter-roberta) |
 | Skills | YAML-versioned prompts with sha256 audit hashes |
 | Audit trail | Append-only, immutable, prompt-hashed |
 | UI | Streamlit |

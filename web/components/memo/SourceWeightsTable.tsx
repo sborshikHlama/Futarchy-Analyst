@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Fragment } from 'react'
 import { ChevronDown, ChevronRight } from 'lucide-react'
 import type { SourceWeight, SourceClass } from '@/lib/types'
 
@@ -115,9 +115,9 @@ export default function SourceWeightsTable({
             const badge = classBadge(row.source.class_)
             const isOpen = expanded === row.id
             return (
-              <>
+              <Fragment key={row.id}>
                 <tr
-                  key={row.id}
+                  id={`source-row-${row.id}`}
                   className="cursor-pointer"
                   onClick={() => setExpanded(isOpen ? null : row.id)}
                   style={{
@@ -175,7 +175,7 @@ export default function SourceWeightsTable({
                     </td>
                   </tr>
                 )}
-              </>
+              </Fragment>
             )
           })}
         </tbody>

@@ -20,6 +20,11 @@ python-dotenv>=1.0.0
 # Uncomment when UMIA_ENV=production
 # apify-client>=1.7.0
 
+# ── Sentiment / HuggingFace Inference API ────────────────────────────────────
+# Remote inference only — no local model downloads, no GPU needed.
+# Set HF_TOKEN in .env (Read + Inference Providers permission).
+# requests is already listed above (used for HF API calls).
+
 # ── OpenAI (optional, only if LLM_PROVIDER=openai) ───────────────────────────
 # openai>=1.0.0
 
