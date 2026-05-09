@@ -50,6 +50,20 @@ def publish_node(state: dict) -> dict:
 
     # Auto-publish: write memo.json to disk
     from datetime import datetime, timezone
+
+    # Preserve a previously-resolved outcome — a re-run must not wipe it.
+    existing_outcome = state.get("outcome")
+    if existing_outcome is None:
+        existing_path = _DATA_DIR / market_id / "memo.json"
+        if existing_path.exists():
+            try:
+                import json as _json
+                existing_outcome = _json.loads(
+                    existing_path.read_text(encoding="utf-8")
+                ).get("outcome")
+            except Exception:
+                pass
+
     memo = {
         "market_id":         market_id,
         "generated_at":      state.get("generated_at"),
@@ -62,7 +76,8 @@ def publish_node(state: dict) -> dict:
         "confidence":        state.get("confidence"),
         "position":          position,
         "self_review":       state.get("self_review"),
-        "outcome":           state.get("outcome"),   # None until resolution
+        "sentiment":         state.get("sentiment"),
+        "outcome":           existing_outcome,
         "audit_events":      len(state.get("audit_trail", [])),
     }
 

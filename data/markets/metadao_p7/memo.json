@@ -1,6 +1,7 @@
 {
   "market_id": "metadao_p7",
-  "request_id": "req_backtest_p7",
+  "generated_at": "2026-05-09T15:45:00.073292+00:00",
+  "published_at": "2026-05-09T15:46:35.965107+00:00",
   "market_metadata": {
     "title": "MetaDAO Proposal 7: Pantera Capital META Token Purchase",
     "proposal": "Pantera Capital proposes to purchase META tokens from the treasury for $50,000 USDC, capped at $100/META (or prevailing TWAP). Framed as VC validation of futarchy. Filed immediately after Proposal 6.",
@@ -12,55 +13,64 @@
   "source_weights": {
     "github_futarchy": {
       "class_": "verifiable",
-      "weight": 0.31,
-      "reasoning": "Post-P6 commits (TWAP hardening, manipulation resistance) show a healthy team. Indirectly bullish for protocol credibility but does not speak to whether the $100 cap is fair at current prices."
+      "weight": 0.4,
+      "reasoning": "Active GitHub with multiple contributors and relevant commits, but signal relevance to Pantera's proposal terms is limited."
     },
     "onchain_treasury": {
       "class_": "verifiable",
-      "weight": 0.79,
-      "reasoning": "META spot price on Meteora (post-P3 LP) is $87 at proposal open and trending upward. TWAP over a 4-day window starting at $87 will almost certainly resolve above $100. On-chain fMETA accumulation starting day 2 confirms market participants reaching the same conclusion independently."
+      "weight": 0.9,
+      "reasoning": "Rich on-chain data with direct relevance to proposal terms, showing META price trends and market sentiment via wallet activity."
     },
     "telegram_metadao": {
       "class_": "manipulable",
-      "weight": 0.29,
-      "reasoning": "Proph3t neutrally explaining the cap mechanics. Community analyzing cap vs TWAP math independently. No obvious manipulation \u2014 channel signal is informational."
+      "weight": 0.2,
+      "reasoning": "Community discussion on official Telegram offers mixed perspectives but is subject to moderation and influence by project insiders."
     },
     "twitter_community": {
       "class_": "partial",
-      "weight": 0.55,
-      "reasoning": "Pantera official announcement confirms legitimacy of proposal. Independent analysts applying correct TWAP logic. Community correctly distinguishing between VC credibility (positive) and specific cap terms (unfavorable at current META price)."
+      "weight": 0.5,
+      "reasoning": "Public Twitter posts include credible voices and Pantera's official statement, offering valuable sentiment but lacking cryptographic verifiability."
     }
   },
-  "classification_attempts": 1,
-  "bull_case": "[CITATION:twitter_community] Pantera Capital is a top-tier crypto VC whose engagement with MetaDAO governance is meaningful external validation of the futarchy model. [CITATION:github_futarchy] Active post-P6 development shows a team that strengthens the protocol under stress \u2014 exactly what a VC performs due diligence on. If META retraces below $100 before close, the cap becomes fair and the DAO receives $50k USDC at a reasonable rate. [CITATION:twitter_community] Proph3t noted that institutional interest despite a failed resolution is credibility, not failure.",
-  "bear_case": "[CITATION:onchain_treasury] META spot opened at $87 on February 17 and traded to $94 by day 2 of the proposal window. The $100 cap was set when META was ~$70 \u2014 terms are already stale at proposal open. A TWAP calculated over 4 days from $87 upward will almost certainly resolve above $100. [CITATION:onchain_treasury] On-chain fMETA accumulation beginning February 19 confirms market participants have independently reached this conclusion. [CITATION:twitter_community] Barrett's analysis is correct: if TWAP resolves above $100, Pantera gets 0 META and the DAO spent 4 days of governance overhead for zero economic outcome. The proposal is not bad in principle \u2014 the cap is simply expired.",
-  "manipulation_flags": [],
-  "confidence": 0.76,
+  "bull_case": "- Pantera Capital's engagement with MetaDAO signals strong VC interest in futarchy as a governance model, potentially validating the protocol's approach and attracting further institutional attention [CITATION:onchain_treasury].\n- On-chain activity shows a Pantera-linked wallet testing a small transaction ($500 USDC → pMETA), indicating genuine intent to engage with the protocol technically before a larger purchase [CITATION:onchain_treasury].\n- Active development on MetaDAO’s GitHub, with post-P6 commits focused on hardening mechanisms like TWAP resolution and arbitrage cooldowns, suggests the protocol is improving its resilience, which could support confidence in governance proposals like P7 [CITATION:github_futarchy].\n- Community sentiment on public channels reflects recognition of Pantera’s involvement as a credibility boost for MetaDAO, even if the specific terms of P7 are debated [CITATION:twitter_community].",
+  "bear_case": "- The $100/META cap proposed by Pantera is already below the current spot price of $87 and trending upward, with TWAP resolution over 4 days likely to exceed $100, meaning the DAO risks receiving no premium for the governance overhead if the proposal fails [CITATION:onchain_treasury].\n- On-chain data indicates market sentiment is pricing in a failure of P7, with fMETA accumulation starting early, suggesting traders expect the proposal terms to be unattractive to the DAO [CITATION:onchain_treasury].\n- Repeated token-purchase proposals (P6 and P7 in quick succession) failing could signal to the market that MetaDAO struggles to align on terms with credible buyers, potentially undermining confidence in futarchy’s efficiency [CITATION:twitter_community].\n- The timing of P7, filed immediately after P6, raises concerns about governance fatigue or rushed terms that fail to adapt to rapidly changing market conditions like META’s price rise [CITATION:twitter_community].",
+  "manipulation_flags": [
+    "Flag 1: Telegram community claims the $100 cap was reasonable when Pantera drafted the proposal (META at ~$70), but on-chain data shows META at $87 by proposal open and trending toward $100, contradicting the narrative of 'reasonable terms' still holding [CITATION:onchain_treasury vs. telegram_metadao]."
+  ],
+  "confidence": 0.6,
   "position": {
     "side": "NO",
-    "size_pct": 5.0,
-    "rationale": "Pantera's proposal is legitimate \u2014 no manipulation flags. The NO position is purely economic: META at $87 trending upward makes a $100 TWAP cap almost certain to resolve out-of-the-money for Pantera. On-chain price data is the primary signal and is unambiguous. Confidence 0.76 -> 5% position (0.70-0.85 tier). Lower confidence than P6 because there is no manipulation \u2014 just mispriced terms \u2014 and META could theoretically reverse below $100."
+    "size_pct": 3.0,
+    "rationale": "The bear case is stronger due to the $100/META cap being below the current spot price of $87 and trending upward, with TWAP likely to exceed $100 during resolution, risking no premium for the DAO. On-chain data showing fMETA accumulation further supports market sentiment against P7's terms [CITATION:onchain_treasury]. Additionally, governance fatigue from rapid successive proposals (P6 to P7) heightens the risk of perceived inefficiency in futarchy."
   },
   "self_review": {
     "weaknesses": [
-      "META could retrace below $100 if broader Solana market corrects during the 4-day window",
-      "Pantera may have private information justifying $100 as a ceiling, not a floor",
-      "We are extrapolating a short-term price trend \u2014 TWAP is sensitive to intra-day volatility"
+      "The memo lacks a detailed analysis of the historical volatility of META's price and the likelihood of TWAP exceeding $100 during the resolution period. The assumption that the price will continue trending upward is based on recent data but does not account for potential reversals or external market shocks that could invalidate this projection.",
+      "There is no mention of Pantera Capital's broader strategy or incentives beyond the small test transaction. The memo assumes genuine intent to engage but does not verify whether this could be a low-risk probe or a PR move rather than a commitment to a larger purchase.",
+      "The bear case cites governance fatigue and perceived inefficiency in futarchy but provides no quantitative or qualitative data on voter turnout trends or community engagement metrics for P6 and P7 to substantiate this concern. This gap weakens the argument about the impact of successive proposals."
     ],
     "counter_arguments": [
-      "A Pantera deal at any price could unlock institutional pipeline the market has not priced in",
-      "If Pantera withdraws or renegotiates, the market dynamic changes entirely",
-      "The post-P3 Meteora pool may have thin liquidity susceptible to third-party price manipulation"
+      "Second-order effect: Even if the $100/META cap is currently unattractive, rejecting P7 could deter future institutional interest beyond Pantera. VCs often operate in tight-knit networks, and a 'no' vote might signal to other potential investors that MetaDAO is difficult to negotiate with, reducing long-term capital inflow and undermining futarchy's appeal as a governance model.",
+      "Market structure risk: The fMETA accumulation cited as evidence of market sentiment against P7 could be manipulated by a small group of adversarial actors or whales aiming to influence the outcome of the proposal for their own gain. This introduces information asymmetry, as the on-chain data may not reflect genuine community consensus but rather strategic positioning.",
+      "Timing opportunity: The rapid succession of P6 and P7 might not indicate fatigue but instead an adaptive response to a fast-moving market. A 'no' vote on P7 could miss a narrow window to secure Pantera’s involvement before META’s price rises further, potentially leaving the DAO with no deal at all if future proposals come with even less favorable terms."
     ]
   },
-  "position_iteration": 2,
-  "reviewer_verdict": "APPROVE",
-  "outcome": {
-    "resolved_side": "NO",
-    "pnl_pct": 2.69
-  },
-  "status": "completed",
+  "outcome": null,
   "audit_events": 11,
-  "generated_at": "2024-02-18T16:03:22Z",
-  "published_at": "2024-02-18T16:04:44Z"
+  "sentiment": {
+    "telegram": {
+      "score": 0.35,
+      "label": "bullish",
+      "confidence": 0.78,
+      "sample_size": 5,
+      "model": "ElKulako/cryptobert"
+    },
+    "news": {
+      "score": -0.1,
+      "label": "neutral",
+      "confidence": 0.65,
+      "sample_size": 0,
+      "model": "ProsusAI/finbert"
+    }
+  }
 }

@@ -31,6 +31,19 @@ export interface MarketMetadata {
   resolved_outcome?: string
 }
 
+export interface SentimentResult {
+  score: number
+  label: 'bullish' | 'neutral' | 'bearish'
+  confidence: number
+  sample_size: number
+  model: string
+}
+
+export interface Sentiment {
+  telegram?: SentimentResult
+  news?: SentimentResult
+}
+
 export interface Memo {
   market_id: string
   request_id?: string
@@ -44,6 +57,7 @@ export interface Memo {
   confidence: number
   position: Position
   self_review: SelfReview
+  sentiment?: Sentiment
   outcome?: Outcome
   prompt_version?: string
   model?: string
