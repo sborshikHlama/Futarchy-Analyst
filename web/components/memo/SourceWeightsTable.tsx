@@ -150,9 +150,11 @@ export default function SourceWeightsTable({
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={e => e.stopPropagation()}
-                          style={{ color: 'var(--fg-faint)', lineHeight: 1 }}
+                          style={{ color: 'var(--accent)', lineHeight: 1, opacity: 0.8 }}
+                          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.opacity = '1')}
+                          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.opacity = '0.8')}
                         >
-                          <ExternalLink size={11} />
+                          <ExternalLink size={13} />
                         </a>
                       )}
                     </div>
