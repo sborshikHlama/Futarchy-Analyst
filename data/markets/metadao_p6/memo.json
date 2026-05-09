@@ -1,0 +1,71 @@
+{
+  "market_id": "metadao_p6",
+  "request_id": "req_backtest_p6",
+  "market_metadata": {
+    "title": "MetaDAO Proposal 6: Ben Hawkins META Discount Purchase",
+    "proposal": "Ben Hawkins (Head of Staking Ecosystem, Solana Foundation) proposes to purchase 1,500 META (~10% of supply) from treasury at $33.33/META \u2014 a ~38% discount to spot price of ~$55. Treasury receives $50,000 USDC.",
+    "venue": "MetaDAO",
+    "opens_at": "2024-02-13T00:00:00Z",
+    "closes_at": "2024-02-17T00:00:00Z",
+    "resolved_outcome": "NO"
+  },
+  "source_weights": {
+    "github_futarchy": {
+      "class_": "verifiable",
+      "weight": 0.12,
+      "reasoning": "GitHub is nearly irrelevant here. Proposal 6 is a token sale, not a development initiative. Commits continue at normal cadence \u2014 no signal either way."
+    },
+    "onchain_treasury": {
+      "class_": "verifiable",
+      "weight": 0.97,
+      "reasoning": "CRITICAL SIGNAL. On-chain shows a single wallet depositing >180k USDC into pMETA (pass) market and simultaneously selling META into fMETA (fail) market \u2014 a textbook manipulation attempt. Peak: 330k USDC + 4,200 META across both sides from concentrated sources. Three arbitrageur wallets responded within 48h. This is the clearest on-chain manipulation signature in MetaDAO history."
+    },
+    "telegram_metadao": {
+      "class_": "manipulable",
+      "weight": 0.21,
+      "reasoning": "Ben Hawkins posting in MetaDAO channels to justify his position \u2014 classic conflict of interest where the proposer is also the largest market participant. Community members independently identifying the on-chain manipulation corroborate verifiable signals."
+    },
+    "twitter_community": {
+      "class_": "partial",
+      "weight": 0.58,
+      "reasoning": "Independent analysts (Barrett, 7Layer) calculating Ben's on-chain exposure in real time and publicly calling the manipulation. Their analysis is consistent with verifiable on-chain data \u2014 unusually high signal quality for a Twitter source."
+    }
+  },
+  "classification_attempts": 1,
+  "bull_case": "The proposal does offer the DAO $50,000 USDC in immediate liquidity. [CITATION:twitter_community] Ben Hawkins' supporters argue he is a credible figure (Head of Staking at Solana Foundation) whose involvement could attract further institutional interest in MetaDAO. [CITATION:telegram_metadao] Ben himself frames the 38% discount as fair compensation for taking on illiquid-token risk, citing standard VC discount norms for early-stage protocols. If META's intrinsic value is below $33.33, the DAO is actually receiving fair value.",
+  "bear_case": "[CITATION:onchain_treasury] On-chain evidence is unambiguous: a single wallet has deposited >180,000 USDC into the pass (pMETA) market and simultaneously sold META into the fail (fMETA) market to suppress the fail price. Total Ben-linked market exposure exceeds $250,000 \u2014 5x the proposed $50k USDC purchase price. This is not conviction investing; this is an attempt to manufacture consent in a mechanism designed to prevent exactly this. [CITATION:twitter_community] Independent trader 7Layer has publicly disclosed active arbitrage: selling overpriced pMETA and buying underpriced fMETA, which directly corrects the manipulation. [CITATION:onchain_treasury] META spot at $55 means a $33.33 purchase yields an instant 65% gain on resolution \u2014 the discount is value extraction, not a liquidity premium.",
+  "manipulation_flags": [
+    "CONFIRMED MARKET MANIPULATION: Single wallet (Ben Hawkins) deposited >180k USDC into pass market and sold META into fail market to artificially inflate pass probability. Total exposure >$250k.",
+    "Proposer is simultaneously the largest market participant \u2014 severe conflict of interest.",
+    "On-chain shows coordinated sell pressure on fMETA from 3 wallets in a 4-hour window on Feb 15 \u2014 possible coordination.",
+    "Arbitrageurs (7Layer, Barrett) have publicly disclosed counter-positions, confirming informed market participants are actively correcting the manipulation."
+  ],
+  "confidence": 0.87,
+  "position": {
+    "side": "NO",
+    "size_pct": 5.0,
+    "rationale": "Confidence 0.87 \u2014 highest in this backtest set. On-chain manipulation is unambiguous and verifiable, not inferential. The proposer spent 5x the proposal value attempting to manipulate the market, which is itself proof that terms are highly favorable to him. Arbitrageurs are actively correcting \u2014 the mechanism is working. TWAP resolution over 4 days will price in the arbitrage correction. Position: NO at 5.0% treasury (confidence >= 0.85 tier)."
+  },
+  "self_review": {
+    "weaknesses": [
+      "Ben Hawkins is genuinely credible \u2014 Solana Foundation affiliation is not nothing",
+      "If MetaDAO truly needs liquidity and no other buyers exist, the $50k USDC has real option value",
+      "We cannot rule out that Ben's market position represents genuine conviction, not manipulation"
+    ],
+    "counter_arguments": [
+      "If arbitrageurs are wrong and pass market prevails via TWAP, our NO position loses 5%",
+      "Reputation cost from failing a Solana Foundation-affiliated proposal could outweigh economic case",
+      "Our on-chain interpretation assumes Ben's wallet identity \u2014 mis-attribution invalidates the flag"
+    ]
+  },
+  "position_iteration": 1,
+  "reviewer_verdict": "APPROVE",
+  "outcome": {
+    "resolved_side": "NO",
+    "pnl_pct": 2.14
+  },
+  "status": "completed",
+  "audit_events": 12,
+  "generated_at": "2024-02-14T08:45:33Z",
+  "published_at": "2024-02-14T08:46:51Z"
+}

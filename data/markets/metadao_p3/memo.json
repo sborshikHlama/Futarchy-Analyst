@@ -1,0 +1,68 @@
+{
+  "market_id": "metadao_p3",
+  "request_id": "req_backtest_p3",
+  "market_metadata": {
+    "title": "MetaDAO Proposal 3: Fundraise & Launch META/USDC Spot Market",
+    "proposal": "Raise ~$75k USDC via token sale and deploy a META/USDC liquidity pool on Meteora AMM. Creates a spot market to separate intrinsic-value speculation from proposal outcomes. Pass price: $24.2 vs Fail price: $18.9.",
+    "venue": "MetaDAO",
+    "opens_at": "2024-02-07T00:00:00Z",
+    "closes_at": "2024-02-11T00:00:00Z",
+    "resolved_outcome": "YES"
+  },
+  "source_weights": {
+    "github_futarchy": {
+      "class_": "verifiable",
+      "weight": 0.72,
+      "reasoning": "Steady 8.4 commits/week for a 3-month-old protocol is strong for stage. Meteora LP integration PR is directly on-topic \u2014 team is executing the proposal deliverable before it passes."
+    },
+    "onchain_treasury": {
+      "class_": "verifiable",
+      "weight": 0.88,
+      "reasoning": "Pre-positioned META in staging multisig and Meteora test transactions on Feb 10 are a clear operational signal. The team is ready to execute immediately on resolution."
+    },
+    "telegram_metadao": {
+      "class_": "manipulable",
+      "weight": 0.18,
+      "reasoning": "Founder (proph3t) is publicly arguing AGAINST the proposal via this channel \u2014 the opposite of typical founder-channel manipulation. This reduces but does not eliminate the manipulable classification, as channel is still founder-controlled."
+    },
+    "twitter_community": {
+      "class_": "partial",
+      "weight": 0.51,
+      "reasoning": "Community and independent traders citing on-chain evidence and GitHub corroborate the verifiable signals. Founder opposition publicly noted and priced in by commentators."
+    }
+  },
+  "classification_attempts": 1,
+  "bull_case": "Strong verifiable signals support a YES outcome. [CITATION:onchain_treasury] The MetaDAO treasury staged ~4,200 META into a Meteora LP multisig on February 10 and completed test transactions \u2014 the team is operationally ready to execute the moment the proposal passes. [CITATION:github_futarchy] The futarchy repository shows a Meteora CLMM integration PR already merged, confirming the technical work is complete ahead of the vote. [CITATION:twitter_community] Independent traders observing the pMETA/fMETA spread ($24.2 pass vs $18.9 fail) note the market is pricing a $5.3/META value-add from the spot launch \u2014 a meaningful signal for a $75k investment. Critically, the pass market price reflects intrinsic-value expectations, not social momentum.",
+  "bear_case": "The most credible bear signal is the founder himself. [CITATION:telegram_metadao] Proph3t publicly stated he believes MetaDAO is too early for a spot market and that thin liquidity will undermine price discovery rather than improve it. This is not typical founder-channel noise \u2014 it is an informed insider view. [CITATION:twitter_community] Some community members echo this concern: a $75k raise at a discount dilutes existing holders for a liquidity pool that may see under $10k daily volume in early months. If the spot market fails to attract organic trading volume, the futarchy signal it was supposed to provide becomes worthless.",
+  "manipulation_flags": [
+    "Founder (proph3t) publicly opposing his own proposal via official Telegram. Note: this is ANTI-manipulation (founder arguing against YES), not pro-manipulation. Reduces weight on telegram_metadao to 0.18."
+  ],
+  "confidence": 0.74,
+  "position": {
+    "side": "YES",
+    "size_pct": 5.0,
+    "rationale": "Verifiable on-chain and GitHub signals dominate. The team has pre-executed the technical deliverable and staged treasury funds \u2014 costly-to-fake actions that strongly predict follow-through on resolution. Founder opposition is a legitimate bear signal and has been weighted accordingly, reducing confidence from ~0.82 to 0.74. At 0.74 confidence: 5.0% treasury. Pass market at $24.2 vs fail at $18.9 implies ~56% pass probability \u2014 our 0.74 confidence is meaningfully above consensus."
+  },
+  "self_review": {
+    "weaknesses": [
+      "Founder has more context on treasury health and product readiness than any external analyst",
+      "Meteora LP with thin initial liquidity could generate adverse selection and impermanent loss",
+      "Our on-chain signal (pre-positioned META) could reflect team optimism rather than certainty"
+    ],
+    "counter_arguments": [
+      "If Meteora pool attracts under $5k daily volume, the spot market becomes a liability",
+      "A failed spot market launch could damage MetaDAO credibility more than not having one",
+      "The $75k raise at discount is real dilution \u2014 if META rises post-launch it looks worse"
+    ]
+  },
+  "position_iteration": 1,
+  "reviewer_verdict": "APPROVE",
+  "outcome": {
+    "resolved_side": "YES",
+    "pnl_pct": 3.33
+  },
+  "status": "completed",
+  "audit_events": 9,
+  "generated_at": "2024-02-09T11:22:04Z",
+  "published_at": "2024-02-09T11:23:17Z"
+}

@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "title": "MetaDAO Proposal 7: Pantera Capital META Token Purchase",
+    "proposal": "Pantera Capital proposes to purchase META tokens from the treasury for $50,000 USDC, capped at $100/META (or prevailing TWAP). Framed as VC validation of futarchy. Filed immediately after Proposal 6.",
+    "venue": "MetaDAO",
+    "opens_at": "2024-02-17T00:00:00Z",
+    "closes_at": "2024-02-21T00:00:00Z",
+    "resolved_outcome": "NO"
+  },
+  "signals": {
+    "github_futarchy": {
+      "type": "github",
+      "repo": "metadaoproject/futarchy",
+      "avg_commits_per_week": 7.2,
+      "contributors": 6,
+      "open_prs": 4,
+      "stars": 421,
+      "is_active": true,
+      "recent_prs": [
+        "feat: TWAP resolution improvements post-P6 stress test",
+        "docs: update manipulation resistance documentation",
+        "fix: arbitrage cooldown mechanism"
+      ],
+      "note": "Active development continues. Post-P6 commits show team hardening the mechanism \u2014 positive signal for protocol credibility but not directly relevant to whether Pantera's cap terms are fair."
+    },
+    "onchain_treasury": {
+      "type": "onchain",
+      "total_tx": 14,
+      "active_wallets": 4,
+      "last_activity": "2024-02-20T18:30:00Z",
+      "notable_transfers": [
+        "Pantera-linked wallet tests $500 USDC \u2192 pMETA (likely technical validation)",
+        "3 community arbitrage wallets active from P6 now monitoring P7",
+        "META spot price on Meteora (post-P3 LP): $87 as of Feb 18, already above $100 cap",
+        "fMETA accumulation starting Feb 19 \u2014 market pricing in fail from day 2"
+      ],
+      "note": "META spot is already at $87 at proposal open, trending toward $100 cap. At $100 cap, Pantera gets META at a discount only if price stays below $100 \u2014 but TWAP over 4 days likely resolves above cap. DAO gets no premium for the risk."
+    },
+    "telegram_metadao": [
+      "Community member: Pantera is a top-tier VC. Even a failed proposal proves they're watching MetaDAO. This is validation.",
+      "proph3t: The cap at $100 was reasonable when Pantera wrote this. META was at ~$70. It's now at $87 and rising. The market is pricing in whether the cap stays attractive.",
+      "Analyst: At $100 cap, Pantera would get META at a discount IF resolved before price crosses. But TWAP over 4 days... META could easily resolve above $100. Then what? Pantera gets nothing and DAO gave up 4 days of market clarity for free.",
+      "Community member: Proposal 7 is interesting but the terms are already stale. META outran the cap. Voting NO isn't anti-Pantera \u2014 it's protecting holder value.",
+      "Mod: Remember that P7 was submitted hours after P6 resolved. This feels like a legitimate VC testing the water after watching P6's drama."
+    ],
+    "twitter_community": [
+      "@PanteraCapital: We're submitting a proposal to purchase META tokens from @MetaDAOProject. $50,000 USDC, capped at $100/META. We believe in futarchy as a governance primitive and want skin in the game. Let the market decide. \ud83d\udd2e",
+      "@metaproph3t: Honored that @PanteraCapital is engaging with MetaDAO. The $100 cap was set when META was ~$70. Community will decide if the terms still make sense. This is exactly how futarchy should work.",
+      "@Barrett_DeFi: Pantera's $100 cap was reasonable 4 days ago. META is now $87 and trending. TWAP resolution over 4 days likely puts average above $100. If so: Pantera gets 0 META, DAO got nothing for the governance overhead. Voting NO.",
+      "@trader_7layer: Proposal 7 is a legitimate proposal with stale terms. Not a manipulation. But 'not manipulation' \u2260 'good for META holders.' Fail market looks right here.",
+      "@solana_defi_anon: The subtext of P7: Pantera is bullish on futarchy and wants to be an early holder. That's credibility. But the specific terms expired. A renegotiated cap above $100 could easily pass \u2014 this one won't.",
+      "@crypto_research_: MetaDAO has now run two token-purchase proposals in one week. Both failed. The market is saying: we don't sell META at a discount, even to credible buyers. That's a strong signal for protocol confidence."
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "title": "MetaDAO Proposal 6: Ben Hawkins META Discount Purchase",
+    "proposal": "Ben Hawkins (Head of Staking Ecosystem, Solana Foundation) proposes to purchase 1,500 META (~10% of supply) from treasury at $33.33/META \u2014 a ~38% discount to spot price of ~$55. Treasury receives $50,000 USDC.",
+    "venue": "MetaDAO",
+    "opens_at": "2024-02-13T00:00:00Z",
+    "closes_at": "2024-02-17T00:00:00Z",
+    "resolved_outcome": "NO"
+  },
+  "signals": {
+    "github_futarchy": {
+      "type": "github",
+      "repo": "metadaoproject/futarchy",
+      "avg_commits_per_week": 6.1,
+      "contributors": 5,
+      "open_prs": 2,
+      "stars": 389,
+      "is_active": true,
+      "recent_prs": [
+        "chore: minor UI updates",
+        "docs: add proposal lifecycle documentation"
+      ],
+      "note": "No commits related to Proposal 6. This is a treasury token sale, not a development initiative. GitHub signal is irrelevant to the core question."
+    },
+    "onchain_treasury": {
+      "type": "onchain",
+      "total_tx": 47,
+      "active_wallets": 6,
+      "last_activity": "2024-02-16T23:58:00Z",
+      "peak_deposits_usdc": 330000,
+      "peak_meta_deposited": 4200,
+      "manipulation_wallet": "BenHawkinsWalletPlaceholder111111111111111111",
+      "notable_transfers": [
+        "Feb 13: Ben wallet deposits 180k USDC into pMETA (pass) market",
+        "Feb 13: Ben wallet sells 1,800 META into fMETA (fail) market \u2014 drives fail price down",
+        "Feb 14: Additional 90k USDC from Ben wallet \u2192 pMETA. Total Ben exposure: ~$250k+",
+        "Feb 14: Arbitrageur 1 (7Layer wallet) sells pMETA, buys fMETA \u2014 correcting spread",
+        "Feb 15: Arbitrageur 2 dumps 800 META into pass market \u2014 'this proposal is bad for holders'",
+        "Feb 15: 3 new wallets buying fMETA in coordinated 4-hour window",
+        "Feb 16: Peak \u2014 330k USDC + 4,200 META deposited across both sides",
+        "Feb 17: fMETA price recovers above pMETA \u2014 fail market wins"
+      ],
+      "note": "Clear manipulation signature: one wallet (Ben) spent >$250k attempting to artificially inflate pass market. Arbitrageurs responded and corrected within 48h. This is the largest single-wallet manipulation attempt in MetaDAO history."
+    },
+    "telegram_metadao": [
+      "Ben Hawkins: I believe deeply in MetaDAO and in futarchy. This purchase is at a fair discount given the liquidity risk the DAO takes on an illiquid token. I'm putting my money where my mouth is \u2014 I've taken a significant position in the pass market.",
+      "Community member: Checked on-chain. Ben has deposited >180k USDC into pMETA in the last 6 hours. That's not investing \u2014 that's trying to buy the vote.",
+      "proph3t: I want to be clear \u2014 I have not and will not coordinate with any party to influence this market. The mechanism should resolve this. Watch the arbitrage.",
+      "Mod: For context, Ben Hawkins is Head of Staking Ecosystem at Solana Foundation. He is proposing this in a personal capacity, not on behalf of Solana Foundation.",
+      "Community member: The fail market is being suppressed by large META sells. Someone is trying to make failure look cheap. Classic manipulation.",
+      "7Layer: I've been arbing this since hour 1. The spread is artificial. Pass market is overpriced relative to intrinsic value at $33.33/META."
+    ],
+    "twitter_community": [
+      "@BenHawkins_SF: I'm proposing to buy 1,500 META at $33.33 from @MetaDAOProject treasury. $50k USDC. I believe in the team and this is fair value for an illiquid token. Let the market decide. #futarchy #MetaDAO",
+      "@BenHawkins_SF: Update: I've taken a position in the pass market. I'm not just proposing \u2014 I'm putting capital behind my conviction. This is how futarchy should work.",
+      "@Barrett_DeFi: On-chain shows Ben has spent over $200k trying to push the pass market. At $33.33/META vs spot $55, he would make 65% instantly on resolution. This isn't conviction \u2014 this is a trade.",
+      "@trader_7layer: Spent the last 3 hours arbing Proposal 6. Pass market is artificially inflated. Selling pMETA, buying fMETA. The mechanism is working \u2014 price will correct.",
+      "@solana_defi_anon: MetaDAO is getting stress-tested in real time. Someone with deep pockets is trying to buy a $55 asset at $33. The question is whether arbitrageurs can outgun them. So far: yes.",
+      "@MetaDAOProject: The futarchy mechanism is functioning as designed. Large deposits from any single party create arbitrage opportunities for other participants. We are monitoring and will update the community.",
+      "@metaproph3t: This is exactly why TWAP-based resolution matters. Flash deposits don't win. Time-weighted truth wins."
+    ]
+  }
+}

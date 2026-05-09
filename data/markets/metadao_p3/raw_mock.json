@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "title": "MetaDAO Proposal 3: Fundraise & Launch META/USDC Spot Market",
+    "proposal": "Raise ~$75k USDC via token sale and deploy a META/USDC liquidity pool on Meteora AMM. Creates a spot market to separate intrinsic-value speculation from proposal outcomes. Pass price: $24.2 \u00b7 Fail price: $18.9.",
+    "venue": "MetaDAO",
+    "opens_at": "2024-02-07T00:00:00Z",
+    "closes_at": "2024-02-11T00:00:00Z",
+    "resolved_outcome": "YES"
+  },
+  "signals": {
+    "github_futarchy": {
+      "type": "github",
+      "repo": "metadaoproject/futarchy",
+      "avg_commits_per_week": 8.4,
+      "contributors": 5,
+      "open_prs": 3,
+      "stars": 312,
+      "is_active": true,
+      "recent_prs": [
+        "feat: add Meteora CLMM liquidity pool integration",
+        "docs: META/USDC spot market architecture spec",
+        "fix: TWAP oracle edge case on low-volume markets"
+      ],
+      "note": "Early-stage repo (Nov 2023 launch). Steady cadence for a 3-month-old project."
+    },
+    "onchain_treasury": {
+      "type": "onchain",
+      "total_tx": 9,
+      "active_wallets": 2,
+      "last_activity": "2024-02-10T21:14:00Z",
+      "notable_transfers": [
+        "~4,200 META transferred from treasury to LP staging multisig (Feb 10)",
+        "Meteora pool creation transaction signed by 2/3 multisig (Feb 11 preparation)",
+        "Test liquidity add/remove on devnet \u2014 confirmed working"
+      ],
+      "note": "On-chain shows pre-positioned META ahead of LP launch \u2014 team executing."
+    },
+    "telegram_metadao": [
+      "proph3t: I'm going to be honest \u2014 I think Proposal 3 overestimates how much a spot market helps us right now. We're too early. The liquidity will be thin and we're giving away META at a discount. I'll vote against but I respect whatever the market decides.",
+      "proph3t: The futarchy mechanism exists exactly for this \u2014 if the market thinks the spot liquidity creates more long-term value than I do, they should win. Let's see.",
+      "Community mod: Reminder that pass market is at $24.2, fail at $18.9. Gap is widening.",
+      "Anonymous trader: The spot market is exactly what MetaDAO needs to grow. Separating governance value from speculation is fundamental to futarchy working at scale."
+    ],
+    "twitter_community": [
+      "@metaproph3t: Proposal 3 is live. I disagree with it \u2014 I think we're too early for a spot market and the $75k raise dilutes holders. But that's what markets are for. Let the mechanism decide. #MetaDAO #futarchy",
+      "@trader_7layer: Wild that the founder is publicly campaigning against his own DAO's proposal. But this is futarchy working as intended \u2014 no veto power, just price signals.",
+      "@Barrett_DeFi: Checked the MetaDAO GitHub \u2014 devs already have Meteora integration drafted. The team wants this to happen regardless of proph3t's public stance.",
+      "@solana_anon: pass pMETA at $24.2 vs fail fMETA at $18.9. Market is saying the spot launch adds $5.3 per META in long-term value. That's a strong signal.",
+      "@metadao_community: Founder opposition to his own proposal is actually a BULLISH signal for futarchy \u2014 proves the mechanism is credibly neutral."
+    ]
+  }
+}

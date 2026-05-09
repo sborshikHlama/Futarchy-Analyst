@@ -1,0 +1,66 @@
+{
+  "market_id": "metadao_p7",
+  "request_id": "req_backtest_p7",
+  "market_metadata": {
+    "title": "MetaDAO Proposal 7: Pantera Capital META Token Purchase",
+    "proposal": "Pantera Capital proposes to purchase META tokens from the treasury for $50,000 USDC, capped at $100/META (or prevailing TWAP). Framed as VC validation of futarchy. Filed immediately after Proposal 6.",
+    "venue": "MetaDAO",
+    "opens_at": "2024-02-17T00:00:00Z",
+    "closes_at": "2024-02-21T00:00:00Z",
+    "resolved_outcome": "NO"
+  },
+  "source_weights": {
+    "github_futarchy": {
+      "class_": "verifiable",
+      "weight": 0.31,
+      "reasoning": "Post-P6 commits (TWAP hardening, manipulation resistance) show a healthy team. Indirectly bullish for protocol credibility but does not speak to whether the $100 cap is fair at current prices."
+    },
+    "onchain_treasury": {
+      "class_": "verifiable",
+      "weight": 0.79,
+      "reasoning": "META spot price on Meteora (post-P3 LP) is $87 at proposal open and trending upward. TWAP over a 4-day window starting at $87 will almost certainly resolve above $100. On-chain fMETA accumulation starting day 2 confirms market participants reaching the same conclusion independently."
+    },
+    "telegram_metadao": {
+      "class_": "manipulable",
+      "weight": 0.29,
+      "reasoning": "Proph3t neutrally explaining the cap mechanics. Community analyzing cap vs TWAP math independently. No obvious manipulation \u2014 channel signal is informational."
+    },
+    "twitter_community": {
+      "class_": "partial",
+      "weight": 0.55,
+      "reasoning": "Pantera official announcement confirms legitimacy of proposal. Independent analysts applying correct TWAP logic. Community correctly distinguishing between VC credibility (positive) and specific cap terms (unfavorable at current META price)."
+    }
+  },
+  "classification_attempts": 1,
+  "bull_case": "[CITATION:twitter_community] Pantera Capital is a top-tier crypto VC whose engagement with MetaDAO governance is meaningful external validation of the futarchy model. [CITATION:github_futarchy] Active post-P6 development shows a team that strengthens the protocol under stress \u2014 exactly what a VC performs due diligence on. If META retraces below $100 before close, the cap becomes fair and the DAO receives $50k USDC at a reasonable rate. [CITATION:twitter_community] Proph3t noted that institutional interest despite a failed resolution is credibility, not failure.",
+  "bear_case": "[CITATION:onchain_treasury] META spot opened at $87 on February 17 and traded to $94 by day 2 of the proposal window. The $100 cap was set when META was ~$70 \u2014 terms are already stale at proposal open. A TWAP calculated over 4 days from $87 upward will almost certainly resolve above $100. [CITATION:onchain_treasury] On-chain fMETA accumulation beginning February 19 confirms market participants have independently reached this conclusion. [CITATION:twitter_community] Barrett's analysis is correct: if TWAP resolves above $100, Pantera gets 0 META and the DAO spent 4 days of governance overhead for zero economic outcome. The proposal is not bad in principle \u2014 the cap is simply expired.",
+  "manipulation_flags": [],
+  "confidence": 0.76,
+  "position": {
+    "side": "NO",
+    "size_pct": 5.0,
+    "rationale": "Pantera's proposal is legitimate \u2014 no manipulation flags. The NO position is purely economic: META at $87 trending upward makes a $100 TWAP cap almost certain to resolve out-of-the-money for Pantera. On-chain price data is the primary signal and is unambiguous. Confidence 0.76 -> 5% position (0.70-0.85 tier). Lower confidence than P6 because there is no manipulation \u2014 just mispriced terms \u2014 and META could theoretically reverse below $100."
+  },
+  "self_review": {
+    "weaknesses": [
+      "META could retrace below $100 if broader Solana market corrects during the 4-day window",
+      "Pantera may have private information justifying $100 as a ceiling, not a floor",
+      "We are extrapolating a short-term price trend \u2014 TWAP is sensitive to intra-day volatility"
+    ],
+    "counter_arguments": [
+      "A Pantera deal at any price could unlock institutional pipeline the market has not priced in",
+      "If Pantera withdraws or renegotiates, the market dynamic changes entirely",
+      "The post-P3 Meteora pool may have thin liquidity susceptible to third-party price manipulation"
+    ]
+  },
+  "position_iteration": 2,
+  "reviewer_verdict": "APPROVE",
+  "outcome": {
+    "resolved_side": "NO",
+    "pnl_pct": 2.69
+  },
+  "status": "completed",
+  "audit_events": 11,
+  "generated_at": "2024-02-18T16:03:22Z",
+  "published_at": "2024-02-18T16:04:44Z"
+}
