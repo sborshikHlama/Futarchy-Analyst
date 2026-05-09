@@ -1,0 +1,67 @@
+{
+  "market_id": "metadao_002",
+  "request_id": "req_backtest_002",
+  "market_metadata": {
+    "title": "MetaDAO: Double Developer Grant Pool to 1M USDC",
+    "proposal": "Increase the annual developer grant pool from 500k to 1M USDC by allocating additional treasury reserves.",
+    "venue": "MetaDAO",
+    "opens_at": "2025-12-01T00:00:00Z",
+    "closes_at": "2025-12-08T00:00:00Z",
+    "resolved_outcome": "NO"
+  },
+  "raw_signals": {},
+  "source_weights": {
+    "github_grants": {
+      "class_": "verifiable",
+      "weight": 0.35,
+      "reasoning": "GitHub shows only 2 commits in 6 weeks with 1 active contributor. Insufficient development velocity for a doubled grant."
+    },
+    "onchain_grant_wallet": {
+      "class_": "verifiable",
+      "weight": 0.6,
+      "reasoning": "Previous grant wallet still holds 40% of original allocation unspent after 4 months."
+    },
+    "telegram_dev": {
+      "class_": "manipulable",
+      "weight": 0.22,
+      "reasoning": "Small developer Telegram (180 members). Moderate enthusiasm but controlled by grant recipient."
+    },
+    "twitter_metadao": {
+      "class_": "partial",
+      "weight": 0.4,
+      "reasoning": "MetaDAO community Twitter skeptical; several influential voters publicly opposed."
+    }
+  },
+  "classification_attempts": 1,
+  "bull_case": "Developer advocates argue the slow commit pace reflects deliberate architecture planning rather than inactivity. [CITATION:telegram_dev] The team claims a major refactor will unlock higher velocity. [CITATION:twitter_metadao] Some community members note that previous grant deliverables were technically sound, just behind schedule.",
+  "bear_case": "On-chain evidence is damning. [CITATION:onchain_grant_wallet] 40% of the prior grant remains unspent after 4 months \u2014 doubling the grant without accountability is poor capital allocation. [CITATION:github_grants] GitHub shows 2 commits in 6 weeks with a single contributor, far below the 10+ commits/week seen in successful MetaDAO grants. MetaDAO voters have rejected similar under-performing grant renewals 5 of the last 6 times. [CITATION:twitter_metadao]",
+  "manipulation_flags": [
+    "Telegram channel controlled by grant recipient \u2014 positive sentiment unreliable"
+  ],
+  "confidence": 0.74,
+  "position": {
+    "side": "NO",
+    "size_pct": 3.0,
+    "rationale": "Unspent prior grant and negligible commit activity make doubling unlikely to pass. Bear case has verifiable support; bull case relies on unsubstantiated future claims. Confidence 0.74 \u2192 3% size (medium tier)."
+  },
+  "self_review": {
+    "weaknesses": [
+      "Architecture planning phases genuinely produce fewer commits",
+      "Community vote could still surprise if whales coordinate"
+    ],
+    "counter_arguments": [
+      "If the team ships a major demo before vote close, YES could rally quickly",
+      "Unspent grant funds could indicate prudent saving rather than inactivity"
+    ]
+  },
+  "position_iteration": 2,
+  "reviewer_verdict": "APPROVE",
+  "outcome": {
+    "resolved_side": "NO",
+    "pnl_pct": 1.23
+  },
+  "status": "completed",
+  "audit_events": 11,
+  "generated_at": "2026-04-25T14:22:10Z",
+  "published_at": "2026-04-25T14:23:04Z"
+}

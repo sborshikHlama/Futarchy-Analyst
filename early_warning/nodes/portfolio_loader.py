@@ -1,69 +1,51 @@
 # DETERMINISTIC
 """
-Portfolio Loader — early_warning/nodes/portfolio_loader.py
-Načte ACTIVE klienty ze Silver tabulek nebo mock dat.
-DETERMINISTIC — žádný LLM.
+Live Watch — Market Loader — early_warning/nodes/portfolio_loader.py
+Loads open decision markets for signal monitoring.
 """
+import json
 import logging
 import os
+from pathlib import Path
 
 from utils.audit import _audit
 
 log = logging.getLogger(__name__)
 
+_DATA_DIR = Path(__file__).parent.parent.parent / "data" / "markets"
 
-def load_portfolio_state(state: dict) -> dict:
-    """Načte ACTIVE klienty z Portfolio State Store."""
-    is_demo = os.getenv("ICM_ENV", "demo").lower() != "production"
 
-    if is_demo:
-        from utils.mock_data import get_portfolio
-        portfolio = get_portfolio()
+def load_open_markets(state: dict) -> dict:
+    """
+    Loads open decision markets.
+    Demo: reads data/markets/*/raw_mock.json where resolved_outcome is null.
+    Production: would call Umia/Polymarket API.
+    """
+    env = os.getenv("UMIA_ENV", "demo")
+    log.info(f"[MarketLoader] Loading open markets | env={env}")
+
+    open_markets: list[dict] = []
+    market_signals: dict = {}
+
+    if env != "production":
+        if _DATA_DIR.exists():
+            for mock_file in sorted(_DATA_DIR.glob("*/raw_mock.json")):
+                try:
+                    with mock_file.open("r", encoding="utf-8") as f:
+                        bundle = json.load(f)
+                    meta = bundle.get("metadata", {})
+                    market_id = mock_file.parent.name
+                    if meta.get("resolved_outcome") is None:
+                        open_markets.append({**meta, "market_id": market_id})
+                        market_signals[market_id] = bundle.get("signals", {})
+                except Exception as exc:
+                    log.warning(f"[MarketLoader] Failed to load {mock_file}: {exc}")
     else:
-        from utils.data_connector import query
-        CAT = os.getenv("DATABRICKS_CATALOG", "vse_banka")
-        SCH = os.getenv("DATABRICKS_SCHEMA_SILVER", "obsluha_klienta")
-        rows = query(f"""
-            SELECT
-                cm.ico,
-                cm.company_name,
-                cm.nace_description AS sector,
-                fp.credit_limit_utilization * 100 AS utilisation_pct,
-                fp.days_past_due_max AS dpd_current,
-                fp.internal_rating_score,
-                fp.avg_monthly_turnover,
-                fp.cash_flow_volatility,
-                fp.salary_payment_stability
-            FROM {CAT}.{SCH}.silver_corporate_financial_profile fp
-            JOIN {CAT}.{SCH}.silver_company_master cm
-              ON cm.ico = CAST(fp.customer_id AS STRING)
-            WHERE fp.is_current = TRUE
-        """)
-        portfolio = rows
+        log.info("[MarketLoader] Production: live market list not yet implemented")
 
-    # Obohaťme portfolio o CRIBIS YoY signály pro EWS
-    try:
-        from utils.data_connector import get_cribis_data
-        for client in portfolio:
-            cribis = get_cribis_data(client.get("ico", ""))
-            if cribis:
-                client["yoy_revenue_change_pct"] = cribis.get("yoy_revenue_change_pct")
-                client["yoy_ebitda_change_pct"]  = cribis.get("yoy_ebitda_change_pct")
-                client["is_suspicious_cribis"]   = bool(cribis.get("is_suspicious", False))
-                client["leverage_ratio"]         = cribis.get("leverage_ratio")
-                client["dscr"]                   = cribis.get("dscr")
-    except Exception as exc:
-        log.warning(f"[PortfolioLoader] CRIBIS obohacení selhalo: {exc}")
-
-    audit = _audit(
-        state,
-        node="PortfolioLoader",
-        action="load_portfolio",
-        result="success",
-        metadata={
-            "clients_loaded": len(portfolio),
-            "mode": "demo" if is_demo else "production",
-        },
-    )
-    log.info(f"[PortfolioLoader] Načteno {len(portfolio)} klientů | mode={'demo' if is_demo else 'prod'}")
-    return {**state, "portfolio": portfolio, "audit_trail": audit}
+    log.info(f"[MarketLoader] Found {len(open_markets)} open markets")
+    audit = _audit(state, node="MarketLoader", action="markets_loaded",
+                   result=f"{len(open_markets)}_markets",
+                   metadata={"env": env, "open_markets": len(open_markets)})
+    return {**state, "open_markets": open_markets,
+            "market_signals": market_signals, "audit_trail": audit}

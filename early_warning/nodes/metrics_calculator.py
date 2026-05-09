@@ -1,88 +1,75 @@
 # DETERMINISTIC
 """
-Metrics Calculator — early_warning/nodes/metrics_calculator.py
-Vypočítá EWS trendy pro každého klienta ze Silver tabulek.
-DETERMINISTIC — čistá Python matematika, žádný LLM.
+Live Watch — Signal Scorer — early_warning/nodes/metrics_calculator.py
+Scores each open market's signal quality. Pure Python — no LLM.
 """
 import logging
 
 from utils.audit import _audit
+from utils.source_rules import classify_signal_level
 
 log = logging.getLogger(__name__)
 
 
-def calculate_portfolio_metrics(state: dict) -> dict:
-    """Vypočítá EWS trendy pro každého klienta v portfoliu."""
-    results: dict[str, dict] = {}
+def calculate_market_signal_scores(state: dict) -> dict:
+    """
+    Computes signal strength score for each open market.
+    Scores are based on source diversity and verifiable signal volume.
+    """
+    open_markets: list[dict] = state.get("open_markets", [])
+    market_signals: dict = state.get("market_signals", {})
+    scores: dict[str, dict] = {}
 
-    for client in state["portfolio"]:
-        ico = client.get("ico", "")
-        results[ico] = _compute_client_metrics(ico, client)
+    for market in open_markets:
+        mid = market.get("market_id", "")
+        signals = market_signals.get(mid, {})
+        score = _score_market(mid, market, signals)
+        scores[mid] = score
 
-    log.info(f"[MetricsCalculator] Metriky vypočteny | clients={len(results)}")
-    audit = _audit(
-        state,
-        node="MetricsCalculator",
-        action="calculate_trends",
-        result="success",
-        metadata={"clients_processed": len(results)},
-    )
-    return {**state, "metrics_computed": results, "audit_trail": audit}
+    log.info(f"[SignalScorer] Scored {len(scores)} markets")
+    audit = _audit(state, node="SignalScorer", action="scores_computed",
+                   result="success", metadata={"markets_scored": len(scores)})
+    return {**state, "metrics_computed": scores, "audit_trail": audit}
 
 
-def _compute_client_metrics(ico: str, client: dict) -> dict:
-    """DETERMINISTIC výpočet trendů pro jednoho klienta."""
-    from utils.mock_data import _mock_transactions_12m
+def _score_market(market_id: str, meta: dict, signals: dict) -> dict:
+    """DETERMINISTIC — compute signal quality metrics for one market."""
+    source_count    = len(signals)
+    verifiable      = [k for k, v in signals.items() if isinstance(v, dict) and v.get("type") == "onchain"]
+    has_github      = "github_commits" in signals or "github_activity" in signals
+    has_onchain     = any("onchain" in k or "wallet" in k for k in signals)
+    has_social      = any("telegram" in k or "twitter" in k for k in signals)
+    signal_diversity = sum([has_github, has_onchain, has_social])
 
-    txns = _mock_transactions_12m(ico)
-    credits = [float(t.get("credit_turnover", 0) or 0) for t in txns]
+    # Simple heuristic: more verifiable sources → higher signal level
+    mock_weights: dict = {}
+    if has_onchain:
+        mock_weights["onchain"] = {"class_": "verifiable", "weight": 0.8}
+    if has_github:
+        mock_weights["github"] = {"class_": "verifiable", "weight": 0.7}
+    if has_social:
+        mock_weights["social"] = {"class_": "manipulable", "weight": 0.25}
 
-    # MoM turnover change
-    mom_change = 0.0
-    if len(credits) >= 2 and credits[1] != 0:
-        mom_change = (credits[0] / credits[1] - 1) * 100  # DETERMINISTIC
+    signal_level = classify_signal_level(mock_weights) if mock_weights else "LOW"
 
-    # Overdraft frequency (poslední 3M)
-    overdraft_days_3m = sum(int(t.get("overdraft_days", 0) or 0) for t in txns[:3])
-    overdraft_freq = overdraft_days_3m / 90 * 100  # DETERMINISTIC
-
-    # Tax compliance (poslední 3M)
-    tax_ok = sum(1 for t in txns[:3] if t.get("tax_payment_made") == "true")
-    tax_compliance = (tax_ok / 3 * 100) if txns else 100.0  # DETERMINISTIC
-
-    # Utilisation a trend
-    util = float(client.get("utilisation_pct", 0) or 0)
-    # Simulujeme trend: u RED klientů +8pp, u GREEN -2pp
-    ew_level = client.get("ew_alert_level", "GREEN")
-    util_baseline = util * 0.9 if ew_level in ("RED", "AMBER") else util * 1.02
-    util_trend = util - util_baseline  # DETERMINISTIC (pozitivní = nárůst)
-
-    # DPD
-    dpd = float(client.get("dpd_current", 0) or 0)
-
-    # Days to limit breach (prediktivní) — DETERMINISTIC
-    days_to_breach = None
-    if util_trend > 0:
-        days_to_breach = max(0.0, (85.0 - util) / util_trend * 30)
-
-    # Covenant risk composite — DETERMINISTIC
-    cov_status = client.get("covenant_status", "OK")
-    covenant_risk = min(1.0,
-        0.4 * min(1.0, dpd / 30)
-        + 0.3 * (1.0 if cov_status == "BREACH" else 0.0)
-        + 0.2 * (1.0 if client.get("is_restructured") else 0.0)
-        + 0.1 * (1.0 if client.get("cmp_monitored") else 0.0)
-    )  # DETERMINISTIC
+    # Time to close
+    from datetime import datetime, timezone
+    closes_at = meta.get("closes_at", "")
+    hours_to_close = None
+    try:
+        closes_dt = datetime.fromisoformat(closes_at.replace("Z", "+00:00"))
+        delta = closes_dt - datetime.now(timezone.utc)
+        hours_to_close = delta.total_seconds() / 3600
+    except Exception:
+        pass
 
     return {
-        "utilisation_pct":       round(util, 1),
-        "utilisation_trend_30d": round(util_trend, 2),
-        "baseline_utilisation":  round(util_baseline, 1),
-        "days_to_limit_breach":  round(days_to_breach, 0) if days_to_breach is not None else None,
-        "mom_turnover_change":   round(mom_change, 2),
-        "overdraft_frequency":   round(overdraft_freq, 1),
-        "tax_compliance":        round(tax_compliance, 1),
-        "dpd_current":           dpd,
-        "covenant_risk_score":   round(covenant_risk, 3),
-        "covenant_status":       cov_status,
+        "market_id":      market_id,
+        "signal_level":   signal_level,
+        "source_count":   source_count,
+        "has_github":     has_github,
+        "has_onchain":    has_onchain,
+        "has_social":     has_social,
+        "signal_diversity": signal_diversity,
+        "hours_to_close": hours_to_close,
     }

@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "title": "MetaDAO: Launch SOL/USDC Perpetuals Market",
+    "proposal": "Deploy a SOL/USDC perpetuals market on MetaDAO exchange using 200k USDC from the treasury as initial liquidity.",
+    "venue": "MetaDAO",
+    "opens_at": "2025-11-01T00:00:00Z",
+    "closes_at": "2025-11-08T00:00:00Z",
+    "resolved_outcome": "YES"
+  },
+  "signals": {
+    "github_commits": {
+      "type": "github",
+      "repo": "metadaoproject/futarchy",
+      "avg_commits_per_week": 14.2,
+      "contributors": 9,
+      "open_prs": 6,
+      "stars": 1840,
+      "is_active": true,
+      "recent_prs": [
+        "feat: add SOL/USDC perp market scaffolding",
+        "fix: liquidity pool rebalancing edge case",
+        "docs: perpetuals market specification v1.1"
+      ]
+    },
+    "onchain_dev_wallets": {
+      "type": "onchain",
+      "total_tx": 18,
+      "active_wallets": 2,
+      "last_activity": "2025-11-06T14:22:00Z",
+      "notable_transfers": [
+        "200k USDC moved to staging multisig",
+        "Test trade on devnet confirmed"
+      ]
+    },
+    "telegram_founder": [
+      "Perps market is live on devnet — public testnet next week! 🚀",
+      "200k USDC liquidity provision approved internally. Waiting on governance.",
+      "Team is 90% done with the smart contract audit. No critical issues found."
+    ],
+    "twitter_community": [
+      "MetaDAO perps are coming! Checked the GitHub — solid commit cadence",
+      "Smart money is voting YES on the perps proposal. On-chain shows devs active",
+      "MetaDAO founder says audit is clean. Bullish."
+    ]
+  }
+}
