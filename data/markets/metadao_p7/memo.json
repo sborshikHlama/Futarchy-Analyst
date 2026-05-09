@@ -14,22 +14,26 @@
     "github_futarchy": {
       "class_": "verifiable",
       "weight": 0.4,
-      "reasoning": "Active GitHub with multiple contributors and relevant commits, but signal relevance to Pantera's proposal terms is limited."
+      "reasoning": "Active GitHub with multiple contributors and relevant commits, but signal relevance to Pantera's proposal terms is limited.",
+      "url": "https://github.com/metadaoproject/futarchy"
     },
     "onchain_treasury": {
       "class_": "verifiable",
       "weight": 0.9,
-      "reasoning": "Rich on-chain data with direct relevance to proposal terms, showing META price trends and market sentiment via wallet activity."
+      "reasoning": "Rich on-chain data with direct relevance to proposal terms, showing META price trends and market sentiment via wallet activity.",
+      "url": "https://app.themetadao.org/"
     },
     "telegram_metadao": {
       "class_": "manipulable",
       "weight": 0.2,
-      "reasoning": "Community discussion on official Telegram offers mixed perspectives but is subject to moderation and influence by project insiders."
+      "reasoning": "Community discussion on official Telegram offers mixed perspectives but is subject to moderation and influence by project insiders.",
+      "url": "https://t.me/metadaoproject"
     },
     "twitter_community": {
       "class_": "partial",
       "weight": 0.5,
-      "reasoning": "Public Twitter posts include credible voices and Pantera's official statement, offering valuable sentiment but lacking cryptographic verifiability."
+      "reasoning": "Public Twitter posts include credible voices and Pantera's official statement, offering valuable sentiment but lacking cryptographic verifiability.",
+      "url": "https://x.com/PanteraCapital"
     }
   },
   "bull_case": "- Pantera Capital's engagement with MetaDAO signals strong VC interest in futarchy as a governance model, potentially validating the protocol's approach and attracting further institutional attention [CITATION:onchain_treasury].\n- On-chain activity shows a Pantera-linked wallet testing a small transaction ($500 USDC → pMETA), indicating genuine intent to engage with the protocol technically before a larger purchase [CITATION:onchain_treasury].\n- Active development on MetaDAO’s GitHub, with post-P6 commits focused on hardening mechanisms like TWAP resolution and arbitrage cooldowns, suggests the protocol is improving its resilience, which could support confidence in governance proposals like P7 [CITATION:github_futarchy].\n- Community sentiment on public channels reflects recognition of Pantera’s involvement as a credibility boost for MetaDAO, even if the specific terms of P7 are debated [CITATION:twitter_community].",

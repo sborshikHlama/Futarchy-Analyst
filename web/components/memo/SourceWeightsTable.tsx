@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, Fragment } from 'react'
-import { ChevronDown, ChevronRight } from 'lucide-react'
+import { ChevronDown, ChevronRight, ExternalLink } from 'lucide-react'
 import type { SourceWeight, SourceClass } from '@/lib/types'
 
 const SEGMENTS = 8
@@ -140,9 +140,22 @@ export default function SourceWeightsTable({
                     </div>
                   </td>
                   <td className="py-3 pr-6">
-                    <span className="text-13" style={{ color: 'var(--fg-muted)' }}>
-                      {row.label}
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-13" style={{ color: 'var(--fg-muted)' }}>
+                        {row.label}
+                      </span>
+                      {row.source.url && (
+                        <a
+                          href={row.source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          style={{ color: 'var(--fg-faint)', lineHeight: 1 }}
+                        >
+                          <ExternalLink size={11} />
+                        </a>
+                      )}
+                    </div>
                   </td>
                   <td className="py-3 pr-6">
                     <span

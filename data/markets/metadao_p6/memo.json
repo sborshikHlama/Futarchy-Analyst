@@ -14,22 +14,26 @@
     "github_futarchy": {
       "class_": "verifiable",
       "weight": 0.1,
-      "reasoning": "GitHub activity is verifiable but irrelevant to Proposal 6 as it does not address the treasury token sale."
+      "reasoning": "GitHub activity is verifiable but irrelevant to Proposal 6 as it does not address the treasury token sale.",
+      "url": "https://github.com/metadaoproject/futarchy"
     },
     "onchain_treasury": {
       "class_": "verifiable",
       "weight": 0.9,
-      "reasoning": "On-chain data is cryptographically verifiable and rich with detailed transaction history, though manipulation attempts by a single wallet are noted."
+      "reasoning": "On-chain data is cryptographically verifiable and rich with detailed transaction history, though manipulation attempts by a single wallet are noted.",
+      "url": "https://solscan.io/account/BenHawkins111111111111111111111111111111111"
     },
     "telegram_metadao": {
       "class_": "manipulable",
       "weight": 0.2,
-      "reasoning": "Telegram is controlled by project insiders and includes biased statements from the proposer, limiting credibility."
+      "reasoning": "Telegram is controlled by project insiders and includes biased statements from the proposer, limiting credibility.",
+      "url": "https://t.me/metadaoproject"
     },
     "twitter_community": {
       "class_": "partial",
       "weight": 0.4,
-      "reasoning": "Twitter includes independent community analysis alongside proposer statements, offering moderate credibility but lacking verifiability."
+      "reasoning": "Twitter includes independent community analysis alongside proposer statements, offering moderate credibility but lacking verifiability.",
+      "url": "https://x.com/BenHawkins_SF"
     }
   },
   "bull_case": "- The proposal could inject $50,000 USDC into the MetaDAO treasury, providing immediate liquidity for operational needs or future initiatives [CITATION:onchain_treasury].\n- Ben Hawkins' significant personal investment of over $250k in the pass market signals strong individual conviction in MetaDAO's long-term value, potentially aligning his interests with the DAO's success [CITATION:onchain_treasury].\n- The futarchy mechanism appears to be functioning as designed, with arbitrageurs correcting market imbalances, which supports the integrity of the decision-making process for this proposal [CITATION:onchain_treasury].",
