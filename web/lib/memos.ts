@@ -47,8 +47,8 @@ export function getAllMemos(): Memo[] {
 
 export function getTrackRecord(): TrackRecord {
   const memos = getAllMemos()
-  const resolved = memos.filter((m) => m.outcome !== undefined)
-  const open = memos.filter((m) => m.outcome === undefined)
+  const resolved = memos.filter((m) => m.outcome != null)
+  const open = memos.filter((m) => m.outcome == null)
 
   const wins = resolved.filter((m) => m.outcome!.pnl_pct > 0).length
   const losses = resolved.filter(
@@ -70,7 +70,7 @@ export function getTrackRecord(): TrackRecord {
     confidence: m.confidence,
     size_pct: m.position.size_pct,
     pnl_pct: m.outcome?.pnl_pct ?? null,
-    resolved: m.outcome !== undefined,
+    resolved: m.outcome != null,
   }))
 
   return {
@@ -86,7 +86,7 @@ export function getTrackRecord(): TrackRecord {
 }
 
 export function getOpenMemos(): Memo[] {
-  return getAllMemos().filter((m) => m.outcome === undefined)
+  return getAllMemos().filter((m) => m.outcome == null)
 }
 
 export function getLatestMemo(): Memo | null {

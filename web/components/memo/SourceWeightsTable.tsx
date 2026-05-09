@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { ChevronDown, ChevronRight } from 'lucide-react'
+import { useState, Fragment } from 'react'
+import { ChevronDown, ChevronRight, ExternalLink } from 'lucide-react'
 import type { SourceWeight, SourceClass } from '@/lib/types'
 
 const SEGMENTS = 8
@@ -115,9 +115,9 @@ export default function SourceWeightsTable({
             const badge = classBadge(row.source.class_)
             const isOpen = expanded === row.id
             return (
-              <>
+              <Fragment key={row.id}>
                 <tr
-                  key={row.id}
+                  id={`source-row-${row.id}`}
                   className="cursor-pointer"
                   onClick={() => setExpanded(isOpen ? null : row.id)}
                   style={{
@@ -140,9 +140,24 @@ export default function SourceWeightsTable({
                     </div>
                   </td>
                   <td className="py-3 pr-6">
-                    <span className="text-13" style={{ color: 'var(--fg-muted)' }}>
-                      {row.label}
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-13" style={{ color: 'var(--fg-muted)' }}>
+                        {row.label}
+                      </span>
+                      {row.source.url && (
+                        <a
+                          href={row.source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          style={{ color: 'var(--accent)', lineHeight: 1, opacity: 0.8 }}
+                          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.opacity = '1')}
+                          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.opacity = '0.8')}
+                        >
+                          <ExternalLink size={13} />
+                        </a>
+                      )}
+                    </div>
                   </td>
                   <td className="py-3 pr-6">
                     <span
@@ -175,7 +190,7 @@ export default function SourceWeightsTable({
                     </td>
                   </tr>
                 )}
-              </>
+              </Fragment>
             )
           })}
         </tbody>

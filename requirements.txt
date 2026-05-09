@@ -24,9 +24,10 @@ python-dotenv>=1.0.0
 # Used for Twitter signals (xAI Grok API) and optionally LLM_PROVIDER=openai
 openai>=1.0.0
 
-# ── HuggingFace sentiment (production mode) ───────────────────────────────────
-# Inference API uses plain HTTP — no extra SDK beyond requests already above.
-# Set HF_TOKEN in .env. Demo mode returns deterministic mocks (no token needed).
+# ── HuggingFace sentiment (Inference API) ────────────────────────────────────
+# Remote inference only — no local model downloads, no GPU needed.
+# Set HF_TOKEN in .env (Read + Inference Providers permission).
+# Demo mode returns deterministic mocks (no token needed).
 
 # ── Dev / testing ─────────────────────────────────────────────────────────────
 # pytest>=7.0.0

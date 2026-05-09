@@ -219,6 +219,7 @@ for line in open('data/x402_payments.jsonl'):
 
 ---
 
+
 ## Signal sources & models
 
 | Signal | Source | Model / API | Weight class |
@@ -231,8 +232,8 @@ for line in open('data/x402_payments.jsonl'):
 | On-chain flows | Etherscan API | Deterministic | verifiable 1.0 |
 | Market TWAP | Contract read (web3.py) | Deterministic | verifiable 1.0 |
 
-All HuggingFace models are called via **Inference API** — no local downloads, no GPU required.  
-Setup: `HF_TOKEN=hf_xxx` in `.env` (Read token, Inference Providers permission only).  
+All HuggingFace models are called via **Inference API** — no local downloads, no GPU required.
+Setup: `HF_TOKEN=hf_xxx` in `.env` (Read token, Inference Providers permission only).
 Demo mode (`UMIA_ENV=demo`) uses deterministic mock scores — no API keys needed.
 
 ---
