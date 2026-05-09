@@ -12,6 +12,7 @@ import ManipulationFlags from '@/components/memo/ManipulationFlags'
 import BullBearGrid from '@/components/memo/BullBearGrid'
 import SourceWeightsTable from '@/components/memo/SourceWeightsTable'
 import SelfReview from '@/components/memo/SelfReview'
+import SentimentAnalysis from '@/components/memo/SentimentAnalysis'
 import PositionRationale from '@/components/memo/PositionRationale'
 import Provenance from '@/components/memo/Provenance'
 
@@ -90,6 +91,13 @@ export default function MemoDetailClient({ memo }: { memo: Memo }) {
           />
         </div>
       </div>
+
+      {memo.sentiment && (
+        <div className="space-y-3">
+          <SectionDivider label="Sentiment Analysis" />
+          <SentimentAnalysis sentiment={memo.sentiment} />
+        </div>
+      )}
 
       <div className="space-y-3">
         <SectionDivider label="Self-Review" />

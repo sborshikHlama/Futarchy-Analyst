@@ -1,9 +1,10 @@
 {
   "market_id": "metadao_p6",
-  "request_id": "req_backtest_p6",
+  "generated_at": "2026-05-09T15:36:07.357734+00:00",
+  "published_at": "2026-05-09T15:36:46.543366+00:00",
   "market_metadata": {
     "title": "MetaDAO Proposal 6: Ben Hawkins META Discount Purchase",
-    "proposal": "Ben Hawkins (Head of Staking Ecosystem, Solana Foundation) proposes to purchase 1,500 META (~10% of supply) from treasury at $33.33/META \u2014 a ~38% discount to spot price of ~$55. Treasury receives $50,000 USDC.",
+    "proposal": "Ben Hawkins (Head of Staking Ecosystem, Solana Foundation) proposes to purchase 1,500 META (~10% of supply) from treasury at $33.33/META — a ~38% discount to spot price of ~$55. Treasury receives $50,000 USDC.",
     "venue": "MetaDAO",
     "opens_at": "2024-02-13T00:00:00Z",
     "closes_at": "2024-02-17T00:00:00Z",
@@ -12,60 +13,72 @@
   "source_weights": {
     "github_futarchy": {
       "class_": "verifiable",
-      "weight": 0.12,
-      "reasoning": "GitHub is nearly irrelevant here. Proposal 6 is a token sale, not a development initiative. Commits continue at normal cadence \u2014 no signal either way."
+      "weight": 0.1,
+      "reasoning": "GitHub activity is verifiable but irrelevant to Proposal 6 as it does not address the treasury token sale.",
+      "url": "https://github.com/metadaoproject/futarchy"
     },
     "onchain_treasury": {
       "class_": "verifiable",
-      "weight": 0.97,
-      "reasoning": "CRITICAL SIGNAL. On-chain shows a single wallet depositing >180k USDC into pMETA (pass) market and simultaneously selling META into fMETA (fail) market \u2014 a textbook manipulation attempt. Peak: 330k USDC + 4,200 META across both sides from concentrated sources. Three arbitrageur wallets responded within 48h. This is the clearest on-chain manipulation signature in MetaDAO history."
+      "weight": 0.9,
+      "reasoning": "On-chain data is cryptographically verifiable and rich with detailed transaction history, though manipulation attempts by a single wallet are noted.",
+      "url": "https://solscan.io/account/BenHawkins111111111111111111111111111111111"
     },
     "telegram_metadao": {
       "class_": "manipulable",
-      "weight": 0.21,
-      "reasoning": "Ben Hawkins posting in MetaDAO channels to justify his position \u2014 classic conflict of interest where the proposer is also the largest market participant. Community members independently identifying the on-chain manipulation corroborate verifiable signals."
+      "weight": 0.2,
+      "reasoning": "Telegram is controlled by project insiders and includes biased statements from the proposer, limiting credibility.",
+      "url": "https://t.me/metadaoproject"
     },
     "twitter_community": {
       "class_": "partial",
-      "weight": 0.58,
-      "reasoning": "Independent analysts (Barrett, 7Layer) calculating Ben's on-chain exposure in real time and publicly calling the manipulation. Their analysis is consistent with verifiable on-chain data \u2014 unusually high signal quality for a Twitter source."
+      "weight": 0.4,
+      "reasoning": "Twitter includes independent community analysis alongside proposer statements, offering moderate credibility but lacking verifiability.",
+      "url": "https://x.com/BenHawkins_SF"
     }
   },
-  "classification_attempts": 1,
-  "bull_case": "The proposal does offer the DAO $50,000 USDC in immediate liquidity. [CITATION:twitter_community] Ben Hawkins' supporters argue he is a credible figure (Head of Staking at Solana Foundation) whose involvement could attract further institutional interest in MetaDAO. [CITATION:telegram_metadao] Ben himself frames the 38% discount as fair compensation for taking on illiquid-token risk, citing standard VC discount norms for early-stage protocols. If META's intrinsic value is below $33.33, the DAO is actually receiving fair value.",
-  "bear_case": "[CITATION:onchain_treasury] On-chain evidence is unambiguous: a single wallet has deposited >180,000 USDC into the pass (pMETA) market and simultaneously sold META into the fail (fMETA) market to suppress the fail price. Total Ben-linked market exposure exceeds $250,000 \u2014 5x the proposed $50k USDC purchase price. This is not conviction investing; this is an attempt to manufacture consent in a mechanism designed to prevent exactly this. [CITATION:twitter_community] Independent trader 7Layer has publicly disclosed active arbitrage: selling overpriced pMETA and buying underpriced fMETA, which directly corrects the manipulation. [CITATION:onchain_treasury] META spot at $55 means a $33.33 purchase yields an instant 65% gain on resolution \u2014 the discount is value extraction, not a liquidity premium.",
+  "bull_case": "- The proposal could inject $50,000 USDC into the MetaDAO treasury, providing immediate liquidity for operational needs or future initiatives [CITATION:onchain_treasury].\n- Ben Hawkins' significant personal investment of over $250k in the pass market signals strong individual conviction in MetaDAO's long-term value, potentially aligning his interests with the DAO's success [CITATION:onchain_treasury].\n- The futarchy mechanism appears to be functioning as designed, with arbitrageurs correcting market imbalances, which supports the integrity of the decision-making process for this proposal [CITATION:onchain_treasury].",
+  "bear_case": "- On-chain data reveals clear manipulation attempts by Ben Hawkins' wallet, with over $250k deposited to inflate the pass market, undermining the fairness of the futarchy process [CITATION:onchain_treasury].\n- The proposed purchase price of $33.33/META represents a 38% discount to the spot price of $55, potentially allowing Ben to realize an immediate 65% profit upon resolution, which could harm existing token holders [CITATION:onchain_treasury].\n- Community sentiment on social platforms highlights concerns over the proposal being a self-serving trade rather than a genuine investment in MetaDAO's future [CITATION:twitter_community].\n- The fail market has shown resilience, with prices recovering above the pass market, indicating market consensus against the proposal despite manipulation attempts [CITATION:onchain_treasury].",
   "manipulation_flags": [
-    "CONFIRMED MARKET MANIPULATION: Single wallet (Ben Hawkins) deposited >180k USDC into pass market and sold META into fail market to artificially inflate pass probability. Total exposure >$250k.",
-    "Proposer is simultaneously the largest market participant \u2014 severe conflict of interest.",
-    "On-chain shows coordinated sell pressure on fMETA from 3 wallets in a 4-hour window on Feb 15 \u2014 possible coordination.",
-    "Arbitrageurs (7Layer, Barrett) have publicly disclosed counter-positions, confirming informed market participants are actively correcting the manipulation."
+    "Flag 1: Ben Hawkins claims 'conviction' and 'fair value' in Telegram and Twitter, but on-chain data shows over $250k deposited to inflate the pass market, suggesting intent to manipulate rather than genuine belief [CITATION:onchain_treasury vs. telegram_metadao].",
+    "Flag 2: Ben Hawkins states in Telegram that the discount is justified by liquidity risk, but on-chain activity of selling META into the fail market to suppress prices contradicts this narrative [CITATION:onchain_treasury vs. telegram_metadao]."
   ],
-  "confidence": 0.87,
+  "confidence": 0.6,
   "position": {
     "side": "NO",
-    "size_pct": 5.0,
-    "rationale": "Confidence 0.87 \u2014 highest in this backtest set. On-chain manipulation is unambiguous and verifiable, not inferential. The proposer spent 5x the proposal value attempting to manipulate the market, which is itself proof that terms are highly favorable to him. Arbitrageurs are actively correcting \u2014 the mechanism is working. TWAP resolution over 4 days will price in the arbitrage correction. Position: NO at 5.0% treasury (confidence >= 0.85 tier)."
+    "size_pct": 3.0,
+    "rationale": "The bear case is stronger due to verifiable on-chain evidence of manipulation by Ben Hawkins, with over $250k deposited to inflate the pass market and contradictory selling into the fail market. This undermines the fairness of the futarchy process and suggests self-serving intent over genuine investment in MetaDAO."
   },
   "self_review": {
     "weaknesses": [
-      "Ben Hawkins is genuinely credible \u2014 Solana Foundation affiliation is not nothing",
-      "If MetaDAO truly needs liquidity and no other buyers exist, the $50k USDC has real option value",
-      "We cannot rule out that Ben's market position represents genuine conviction, not manipulation"
+      "The memo relies heavily on on-chain data to assert manipulation by Ben Hawkins, but lacks deeper analysis of the broader market context or other participants’ actions. Are there other large players or coordinated efforts influencing the pass/fail markets that could dilute the impact of Hawkins’ actions?",
+      "The bear case assumes community sentiment on social platforms (e.g., Twitter) is representative of the broader MetaDAO stakeholder base, but there’s no evidence of a comprehensive sentiment analysis or polling to confirm this. Negative sentiment could be amplified by a vocal minority.",
+      "The memo does not address the potential impact of the $50,000 USDC injection on MetaDAO’s operational stability. If the treasury is critically underfunded, rejecting the proposal could pose existential risks to the DAO, which are not weighed against the manipulation concerns."
     ],
     "counter_arguments": [
-      "If arbitrageurs are wrong and pass market prevails via TWAP, our NO position loses 5%",
-      "Reputation cost from failing a Solana Foundation-affiliated proposal could outweigh economic case",
-      "Our on-chain interpretation assumes Ben's wallet identity \u2014 mis-attribution invalidates the flag"
+      "Even if manipulation by Ben Hawkins is evident, rejecting the proposal could trigger retaliatory behavior from Hawkins or other large holders, potentially leading to a sell-off of META tokens or further market destabilization. This second-order effect on token price and DAO morale is not considered in the bear case.",
+      "The futarchy mechanism’s design may inherently favor large capital holders like Hawkins, meaning the observed 'manipulation' could be a structural feature rather than an aberration. By taking a NO position, the agent risks betting against a system that is functioning as intended for those with capital, potentially misaligning with market dynamics.",
+      "Timing risk: The fail market’s resilience might be temporary or driven by short-term arbitrageurs rather than genuine consensus. If Hawkins or aligned actors inject additional capital closer to the proposal deadline, the pass market could flip, leaving the NO position exposed to losses."
     ]
   },
-  "position_iteration": 1,
-  "reviewer_verdict": "APPROVE",
   "outcome": {
     "resolved_side": "NO",
-    "pnl_pct": 2.14
+    "pnl_pct": 3.0
   },
-  "status": "completed",
-  "audit_events": 12,
-  "generated_at": "2024-02-14T08:45:33Z",
-  "published_at": "2024-02-14T08:46:51Z"
+  "audit_events": 7,
+  "sentiment": {
+    "telegram": {
+      "score": 0.35,
+      "label": "bullish",
+      "confidence": 0.78,
+      "sample_size": 6,
+      "model": "ElKulako/cryptobert"
+    },
+    "news": {
+      "score": -0.1,
+      "label": "neutral",
+      "confidence": 0.65,
+      "sample_size": 0,
+      "model": "ProsusAI/finbert"
+    }
+  }
 }
