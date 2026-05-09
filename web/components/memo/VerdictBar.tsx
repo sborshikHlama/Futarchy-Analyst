@@ -20,7 +20,7 @@ function fmtPnl(pnl: number) {
 
 export default function VerdictBar({ memo }: { memo: Memo }) {
   const { position, confidence, outcome } = memo
-  const isResolved = outcome !== undefined
+  const isResolved = outcome != null
   const pnlPositive = isResolved && outcome!.pnl_pct >= 0
 
   return (
