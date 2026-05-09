@@ -3,17 +3,20 @@ import './globals.css'
 import Nav from '@/components/Nav'
 
 export const metadata: Metadata = {
-  title: 'Umia Analyst Agent',
+  title: 'Mochifi',
   description: 'Autonomous research analyst for futarchic decision markets',
+  themeColor: '#151B2B',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>
         <Nav />
         <main className="fade-in">{children}</main>
