@@ -16,7 +16,9 @@ import time
 
 from pipeline.state import ProcessStatus
 from skills import registry
-from utils.audit import _audit
+from utils.audit import _audit, log_x402_payment
+from utils.ingest.apify import scrape_telegram, scrape_news
+from utils.sentiment import analyze_batch
 from utils.source_rules import API_RETRY_COUNT, API_RETRY_DELAY_SEC
 
 log = logging.getLogger(__name__)
@@ -35,7 +37,27 @@ def source_classifier_agent(state: dict) -> dict:
     log.info(f"[SourceClassifier] Starting | market_id={market_id}")
 
     raw_signals: dict = state.get("raw_signals", {})
-    if not raw_signals:
+    market_meta: dict = state.get("market_metadata") or {}
+
+    # Fetch fresh Telegram + News signals via Apify X402
+    # (demo mode returns mocks instantly; production uses X402 → APIFY_TOKEN fallback)
+    from utils.mock_markets import MARKET_CONFIGS
+    mkt_cfg = MARKET_CONFIGS.get(market_id, {})
+    tg_channels = mkt_cfg.get("telegram_channels", {})
+    tg_channel = list(tg_channels.values())[0] if tg_channels else "metadao_official"
+
+    venture  = market_meta.get("title", market_id)
+    proposal = market_meta.get("proposal", "")
+
+    tg   = scrape_telegram(channel=tg_channel)
+    log_x402_payment(market_id, tg["payment"], "apify/telegram-scraper", len(tg["texts"]))
+    state = {**state, "telegram_signals": tg["texts"]}
+
+    news = scrape_news(query=f"{venture} {proposal} governance")
+    log_x402_payment(market_id, news["payment"], "apify/google-search-scraper", len(news["texts"]))
+    state = {**state, "news_signals": news["texts"]}
+
+    if not raw_signals and not tg["texts"] and not news["texts"]:
         audit = _audit(state, node="SourceClassifier", action="no_signals",
                        result="frozen", metadata={"market_id": market_id})
         return {**state, "status": ProcessStatus.FROZEN,
@@ -46,12 +68,37 @@ def source_classifier_agent(state: dict) -> dict:
     prompt = skill["prompt"]
     skill_version = skill["version"]
 
-    market_meta = state.get("market_metadata") or {}
+    # Prefer freshly scraped texts; fall back to raw_signals for sources we don't scrape here
+    telegram_posts = state.get("telegram_signals") or [
+        msg if isinstance(msg, str) else msg.get("text", "")
+        for key, val in raw_signals.items()
+        if "telegram" in key
+        for msg in (val if isinstance(val, list) else [])
+    ]
+    news_snippets = state.get("news_signals") or [
+        msg if isinstance(msg, str) else msg.get("text", "")
+        for key, val in raw_signals.items()
+        if any(k in key for k in ("news", "google", "article"))
+        for msg in (val if isinstance(val, list) else [])
+    ]
+
+    telegram_sentiment = analyze_batch(telegram_posts, source_type="social")
+    news_sentiment     = analyze_batch(news_snippets,  source_type="news")
+
+    sentiment = {"telegram": telegram_sentiment, "news": news_sentiment}
+    log.info(
+        f"[SourceClassifier] Sentiment | telegram={telegram_sentiment['label']} "
+        f"({telegram_sentiment['score']:+.2f}) news={news_sentiment['label']} "
+        f"({news_sentiment['score']:+.2f})"
+    )
+
     user_message = (
         f"Market ID: {market_id}\n"
         f"Title: {market_meta.get('title', 'Unknown')}\n"
         f"Proposal: {market_meta.get('proposal', 'Unknown')}\n\n"
-        f"RAW SIGNALS TO CLASSIFY:\n"
+        f"PRE-COMPUTED SENTIMENT SCORES (numeric — do not recalculate):\n"
+        + json.dumps(sentiment, indent=2)
+        + "\n\nRAW SIGNALS TO CLASSIFY:\n"
         + json.dumps(raw_signals, indent=2, ensure_ascii=False)
         + "\n\nReturn JSON: {\"source_weights\": {\"<source_id>\": "
           "{\"class_\": \"verifiable|partial|manipulable\", "
@@ -82,8 +129,10 @@ def source_classifier_agent(state: dict) -> dict:
                            prompt=prompt, prompt_version=skill_version,
                            tokens_used=tokens_used,
                            metadata={"market_id": market_id,
-                                     "sources_classified": len(source_weights)})
+                                     "sources_classified": len(source_weights),
+                                     "sentiment": sentiment})
             return {**state, "source_weights": source_weights,
+                    "sentiment": sentiment,
                     "classification_attempts": attempts, "audit_trail": audit}
 
         except Exception as exc:
@@ -94,9 +143,11 @@ def source_classifier_agent(state: dict) -> dict:
 
     audit = _audit(state, node="SourceClassifier", action="classification_failed",
                    result="process_freeze", prompt=prompt, prompt_version=skill_version,
-                   metadata={"market_id": market_id, "last_error": last_error})
+                   metadata={"market_id": market_id, "last_error": last_error,
+                              "sentiment": sentiment})
     return {**state, "status": ProcessStatus.FROZEN,
             "fallback_reason": f"Classifier API failed after {API_RETRY_COUNT} attempts: {last_error}",
+            "sentiment": sentiment,
             "classification_attempts": attempts, "audit_trail": audit}
 
 

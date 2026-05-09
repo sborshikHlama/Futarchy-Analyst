@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install *)",
+      "Bash(UMIA_ENV=demo python -c \"from utils.sentiment import analyze_batch; print\\(analyze_batch\\(['Bitcoin bullish signal', 'market crash incoming'], 'social'\\)\\)\")",
+      "Bash(UMIA_ENV=demo python -c ' *)",
+      "Bash(git add *)"
+    ]
+  }
+}
