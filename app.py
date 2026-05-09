@@ -63,12 +63,18 @@ def render_sidebar() -> str:
     with st.sidebar:
         st.markdown(
             f"""
-            <div style="background:{ACCENT};color:white;padding:1rem 1.2rem;
-                 border-radius:10px;margin-bottom:1.2rem;text-align:center">
+            <div style="background:linear-gradient(135deg,#1E2638,#252E42);
+                 border:1px solid rgba(61,224,165,0.25);
+                 box-shadow:0 0 24px rgba(61,224,165,0.08);
+                 padding:1.1rem 1.2rem;border-radius:20px;
+                 margin-bottom:1.4rem;text-align:center">
                 <div style="font-size:2rem">🔮</div>
-                <div style="font-weight:700;font-size:1rem;margin-top:0.2rem">Umia Analyst Agent</div>
-                <div style="font-size:0.72rem;opacity:0.8;margin-top:0.1rem">
-                    Autonomous · Futarchic · On-chain track record
+                <div style="font-family:'Outfit',sans-serif;font-weight:700;
+                     font-size:1rem;margin-top:0.3rem;color:#F8FAFC">
+                     Umia Analyst Agent
+                </div>
+                <div style="font-size:0.71rem;color:#94A3B8;margin-top:0.15rem">
+                    Autonomous · Futarchic · On-chain
                 </div>
             </div>
             """,
@@ -108,13 +114,16 @@ def render_sidebar() -> str:
 
         import os
         umia_env = os.getenv("UMIA_ENV", "demo").lower()
-        env_color = "#D97706" if umia_env == "demo" else "#16A34A"
+        env_color = "#F59E0B" if umia_env == "demo" else "#3DE0A5"
+        env_bg    = "rgba(245,158,11,0.12)" if umia_env == "demo" else "rgba(61,224,165,0.12)"
         st.markdown(
-            f"<div style='font-size:0.75rem;color:#9CA3AF'>"
-            f"Umia Analyst Agent v0.1<br>"
-            f"LangGraph + Claude API<br>"
-            f"Audit Trail: immutable<br>"
-            f"<span style='color:{env_color};font-weight:600'>{umia_env.upper()} mode</span>"
+            f"<div style='font-size:0.74rem;color:#94A3B8;line-height:1.6'>"
+            f"LangGraph · Claude API · X402<br>"
+            f"Audit trail: immutable<br>"
+            f"<span style='display:inline-block;margin-top:0.3rem;"
+            f"background:{env_bg};color:{env_color};font-weight:600;"
+            f"padding:0.15rem 0.6rem;border-radius:9999px;font-size:0.7rem'>"
+            f"{umia_env.upper()} MODE</span>"
             f"</div>",
             unsafe_allow_html=True,
         )

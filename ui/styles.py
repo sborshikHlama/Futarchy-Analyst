@@ -1,32 +1,38 @@
 """
 UI Styles & Constants — ui/styles.py
-Design system: Manrope font, accent #5B5BD6, text #0B0F17.
+Design system: Mochifi — Outfit font, Mochi Mint #3DE0A5, Deep Space Navy #151B2B.
+Dark mode default (Web3-native). Pill buttons, 24px card radius, mint glows.
 """
 
 # ── Brand / Design-system colors ──────────────────────────────────────────────
 
-ACCENT       = "#5B5BD6"   # primary accent
-ACCENT_DARK  = "#4747B8"   # hover
-BG           = "#FFFFFF"
-TEXT_MAIN    = "#0B0F17"
-TEXT_SEC     = "#4B5563"
-DIVIDER      = "#E5E7EB"
-SURFACE      = "#F9FAFB"   # card backgrounds
+ACCENT       = "#3DE0A5"   # Mochi Mint — primary accent, buttons, highlights
+ACCENT_DARK  = "#2BB887"   # Hover / pressed state
+ACCENT_GLOW  = "rgba(61, 224, 165, 0.18)"  # soft glow behind active elements
+
+BG           = "#151B2B"   # Deep Space Navy — main background
+SURFACE      = "#1E2638"   # card / panel background
+SURFACE_2    = "#252E42"   # elevated surface (nested cards)
+BORDER       = "rgba(255, 255, 255, 0.06)"  # subtle card borders
+
+TEXT_MAIN    = "#F8FAFC"   # primary text
+TEXT_SEC     = "#94A3B8"   # secondary / muted text
+DIVIDER      = "rgba(255, 255, 255, 0.08)"
 
 # Signal / market watch colors
 EW_COLORS: dict[str, str] = {
-    "GREEN": "#16A34A",
-    "AMBER": "#D97706",
-    "RED":   "#DC2626",
+    "GREEN": "#3DE0A5",   # use mint for positive
+    "AMBER": "#F59E0B",
+    "RED":   "#F87171",
 }
 
 STATUS_COLORS: dict[str, str] = {
-    "running":          "#3B82F6",
-    "frozen":           "#6B7280",
-    "escalated":        "#D97706",
+    "running":          "#60A5FA",
+    "frozen":           "#64748B",
+    "escalated":        "#F59E0B",
     "awaiting_publish": ACCENT,
-    "completed":        "#16A34A",
-    "failed":           "#DC2626",
+    "completed":        "#3DE0A5",
+    "failed":           "#F87171",
 }
 
 STATUS_LABELS: dict[str, str] = {
@@ -43,198 +49,338 @@ STATUS_LABELS: dict[str, str] = {
 
 GLOBAL_CSS = """
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap');
 
-    html, body, [class*="css"], .stApp, .stMarkdown, .stMetric,
-    button, input, select, textarea {
-        font-family: 'Manrope', sans-serif !important;
-        color: #0B0F17;
+    /* ── Base reset ── */
+    html, body, [class*="css"], .stApp, .stMarkdown {
+        font-family: 'Inter', sans-serif !important;
+        color: #F8FAFC;
     }
 
-    .stApp { background-color: #FFFFFF; }
-    section[data-testid="stSidebar"] { background-color: #F9FAFB; border-right: 1px solid #E5E7EB; }
+    h1, h2, h3, h4, h5, h6,
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 700;
+        color: #F8FAFC;
+    }
 
+    /* ── App shell ── */
+    .stApp {
+        background-color: #151B2B !important;
+    }
+
+    section[data-testid="stSidebar"] {
+        background-color: #1E2638 !important;
+        border-right: 1px solid rgba(255,255,255,0.06) !important;
+    }
+
+    /* ── Page header card ── */
     .icm-header {
-        background: #5B5BD6;
-        color: white;
-        padding: 1.1rem 1.5rem;
-        border-radius: 10px;
-        margin-bottom: 1.2rem;
+        background: linear-gradient(135deg, #1E2638 0%, #252E42 100%);
+        border: 1px solid rgba(61, 224, 165, 0.2);
+        box-shadow: 0 0 24px rgba(61, 224, 165, 0.08);
+        color: #F8FAFC;
+        padding: 1.25rem 1.75rem;
+        border-radius: 24px;
+        margin-bottom: 1.5rem;
     }
-    .icm-header h2 { margin: 0; font-size: 1.3rem; font-weight: 700; letter-spacing: -0.3px; }
-    .icm-header p  { margin: 0.2rem 0 0; font-size: 0.82rem; opacity: 0.85; }
+    .icm-header h2 {
+        margin: 0;
+        font-family: 'Outfit', sans-serif !important;
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        color: #F8FAFC;
+    }
+    .icm-header p {
+        margin: 0.25rem 0 0;
+        font-size: 0.83rem;
+        color: #94A3B8;
+    }
 
+    /* ── Cards ── */
     .metric-card {
-        background: #FFFFFF;
-        border: 1px solid #E5E7EB;
-        border-radius: 8px;
-        padding: 0.9rem 1.1rem;
+        background: #1E2638;
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 24px;
+        padding: 1.1rem 1.3rem;
         text-align: center;
+        transition: border-color 0.2s;
+    }
+    .metric-card:hover {
+        border-color: rgba(61, 224, 165, 0.3);
+        box-shadow: 0 0 16px rgba(61, 224, 165, 0.08);
     }
     .metric-card .label {
         font-size: 0.72rem;
-        color: #4B5563;
+        color: #94A3B8;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 0.3rem;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 600;
+    }
+    .metric-card .value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #F8FAFC;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    /* ── Streamlit native metrics ── */
+    [data-testid="metric-container"] {
+        background: #1E2638;
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 20px;
+        padding: 0.9rem 1.1rem;
+    }
+    [data-testid="metric-container"] label {
+        font-size: 0.73rem !important;
+        color: #94A3B8 !important;
+        font-weight: 600;
+        font-family: 'Outfit', sans-serif !important;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 0.25rem;
-    }
-    .metric-card .value { font-size: 1.4rem; font-weight: 700; color: #0B0F17; }
-
-    [data-testid="metric-container"] label {
-        font-size: 0.75rem !important;
-        color: #4B5563 !important;
-        font-weight: 600;
     }
     [data-testid="metric-container"] [data-testid="stMetricValue"] {
-        font-size: 1.3rem !important;
+        font-size: 1.35rem !important;
         font-weight: 700 !important;
-        color: #0B0F17 !important;
+        color: #F8FAFC !important;
+        font-family: 'Outfit', sans-serif !important;
     }
 
-    .stButton > button[kind="primary"] {
-        background: #5B5BD6 !important;
-        border: none !important;
-        color: white !important;
+    /* ── Buttons ── */
+    .stButton > button {
+        border-radius: 9999px !important;
+        font-family: 'Outfit', sans-serif !important;
         font-weight: 600 !important;
-        border-radius: 6px !important;
+        transition: all 0.18s ease !important;
+    }
+    .stButton > button[kind="primary"] {
+        background: #3DE0A5 !important;
+        border: none !important;
+        color: #151B2B !important;
+        box-shadow: 0 8px 24px -4px rgba(61, 224, 165, 0.35) !important;
     }
     .stButton > button[kind="primary"]:hover {
-        background: #4747B8 !important;
+        background: #2BB887 !important;
+        box-shadow: 0 12px 28px -4px rgba(61, 224, 165, 0.45) !important;
+        transform: translateY(-1px);
     }
     .stButton > button[kind="secondary"] {
-        border: 1px solid #E5E7EB !important;
-        color: #0B0F17 !important;
-        font-weight: 500 !important;
-        border-radius: 6px !important;
-        background: #FFFFFF !important;
+        border: 1px solid rgba(255,255,255,0.12) !important;
+        color: #F8FAFC !important;
+        background: #252E42 !important;
+    }
+    .stButton > button[kind="secondary"]:hover {
+        border-color: rgba(61, 224, 165, 0.4) !important;
+        color: #3DE0A5 !important;
+        background: rgba(61, 224, 165, 0.06) !important;
     }
 
+    /* Sidebar nav buttons */
     section[data-testid="stSidebar"] .stButton > button {
-        border-radius: 6px !important;
-        font-weight: 500 !important;
+        border-radius: 12px !important;
     }
     section[data-testid="stSidebar"] .stButton > button[kind="primary"] {
-        background: #5B5BD6 !important;
+        background: rgba(61, 224, 165, 0.15) !important;
+        color: #3DE0A5 !important;
+        box-shadow: none !important;
+        border: 1px solid rgba(61, 224, 165, 0.25) !important;
     }
 
-    hr { border: none; border-top: 1px solid #E5E7EB; margin: 1rem 0; }
+    /* ── Dividers ── */
+    hr {
+        border: none;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        margin: 1.2rem 0;
+    }
 
+    /* ── Badges ── */
     .status-badge {
         display: inline-block;
-        padding: 0.2rem 0.65rem;
-        border-radius: 5px;
-        font-size: 0.78rem;
+        padding: 0.2rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
         font-weight: 600;
-        color: white;
+        font-family: 'Outfit', sans-serif;
+        letter-spacing: 0.3px;
     }
 
     .ew-badge {
         display: inline-block;
-        padding: 0.15rem 0.55rem;
-        border-radius: 5px;
-        font-size: 0.82rem;
+        padding: 0.2rem 0.65rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
         font-weight: 700;
-        color: white;
+        font-family: 'Outfit', sans-serif;
     }
 
+    /* ── Row items ── */
     .client-row {
-        border: 1px solid #E5E7EB;
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 16px;
+        padding: 0.85rem 1.1rem;
         margin-bottom: 0.5rem;
-        background: #FFFFFF;
+        background: #1E2638;
+        transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .client-row:hover { border-color: #5B5BD6; }
+    .client-row:hover {
+        border-color: rgba(61, 224, 165, 0.3);
+        box-shadow: 0 0 16px rgba(61, 224, 165, 0.06);
+    }
 
+    /* ── Memo container ── */
     .memo-container {
-        background: #FFFFFF;
-        border: 1px solid #E5E7EB;
-        border-radius: 8px;
-        padding: 1.5rem 2rem;
-        line-height: 1.75;
-        font-family: 'Manrope', sans-serif;
+        background: #1E2638;
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 24px;
+        padding: 1.75rem 2rem;
+        line-height: 1.8;
+        font-family: 'Inter', sans-serif;
+        color: #F8FAFC;
     }
 
+    /* ── Citation highlight ── */
     .citation {
-        background: #EDEDFC;
-        color: #5B5BD6;
-        padding: 0 3px;
-        border-radius: 3px;
+        background: rgba(61, 224, 165, 0.12);
+        color: #3DE0A5;
+        padding: 0 4px;
+        border-radius: 4px;
         font-size: 0.8em;
         font-family: monospace;
     }
 
+    /* ── Audit events ── */
     .audit-event {
-        border-left: 3px solid #5B5BD6;
-        padding: 0.45rem 0.75rem;
-        margin: 0.35rem 0;
-        background: #F9FAFB;
-        border-radius: 0 6px 6px 0;
-        font-size: 0.84rem;
+        border-left: 3px solid #3DE0A5;
+        padding: 0.5rem 0.9rem;
+        margin: 0.4rem 0;
+        background: #1E2638;
+        border-radius: 0 12px 12px 0;
+        font-size: 0.83rem;
+        color: #F8FAFC;
     }
-    .audit-event.det { border-left-color: #9CA3AF; }
-    .audit-event.ai  { border-left-color: #5B5BD6; }
+    .audit-event.det { border-left-color: #475569; }
+    .audit-event.ai  { border-left-color: #3DE0A5; }
 
+    /* ── Section title ── */
     .section-title {
+        font-family: 'Outfit', sans-serif;
         font-size: 1rem;
         font-weight: 700;
-        color: #0B0F17;
-        margin: 1.2rem 0 0.6rem;
+        color: #F8FAFC;
+        margin: 1.4rem 0 0.7rem;
         display: flex;
         align-items: center;
         gap: 0.4rem;
     }
 
+    /* ── Expanders ── */
     .streamlit-expanderHeader {
         font-weight: 600 !important;
-        color: #0B0F17 !important;
+        font-family: 'Outfit', sans-serif !important;
+        color: #F8FAFC !important;
+    }
+    [data-testid="stExpander"] {
+        border: 1px solid rgba(255,255,255,0.07) !important;
+        border-radius: 16px !important;
+        background: #1E2638 !important;
     }
 
+    /* ── Tabs ── */
     .stTabs [data-baseweb="tab"] {
         font-weight: 600;
-        color: #4B5563;
+        font-family: 'Outfit', sans-serif;
+        color: #94A3B8;
     }
     .stTabs [aria-selected="true"] {
-        color: #5B5BD6 !important;
-        border-bottom-color: #5B5BD6 !important;
+        color: #3DE0A5 !important;
+        border-bottom-color: #3DE0A5 !important;
+    }
+    .stTabs [data-baseweb="tab-list"] {
+        background: transparent !important;
+        border-bottom: 1px solid rgba(255,255,255,0.08) !important;
     }
 
+    /* ── Inputs ── */
     .stTextInput input, .stSelectbox select, .stTextArea textarea {
-        border-radius: 6px !important;
-        border: 1px solid #E5E7EB !important;
-        font-family: 'Manrope', sans-serif !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        background: #252E42 !important;
+        color: #F8FAFC !important;
+        font-family: 'Inter', sans-serif !important;
     }
     .stTextInput input:focus, .stTextArea textarea:focus {
-        border-color: #5B5BD6 !important;
-        box-shadow: 0 0 0 2px rgba(91,91,214,0.12) !important;
+        border-color: #3DE0A5 !important;
+        box-shadow: 0 0 0 2px rgba(61, 224, 165, 0.15) !important;
+    }
+    .stSelectbox [data-baseweb="select"] {
+        border-radius: 12px !important;
+        background: #252E42 !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
     }
 
+    /* ── Misc ── */
     .scroll-box { max-height: 500px; overflow-y: auto; padding-right: 0.5rem; }
 
-    .rule-row-pass { background-color: #F0FDF4; }
-    .rule-row-fail { background-color: #FEF2F2; }
+    .rule-row-pass { background-color: rgba(61, 224, 165, 0.08); border-radius: 8px; }
+    .rule-row-fail { background-color: rgba(248, 113, 113, 0.08); border-radius: 8px; }
 
     .decision-panel {
-        background: #F9FAFB;
-        border: 1px solid #E5E7EB;
-        border-radius: 8px;
-        padding: 1.25rem 1.5rem;
+        background: #1E2638;
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 20px;
+        padding: 1.4rem 1.75rem;
         margin-top: 1rem;
     }
 
-    .stAlert { border-radius: 6px !important; font-family: 'Manrope', sans-serif !important; }
+    .stAlert {
+        border-radius: 16px !important;
+        font-family: 'Inter', sans-serif !important;
+    }
 
-    /* Landing hero */
+    /* ── Landing hero ── */
     .hero-section {
-        background: linear-gradient(135deg, #5B5BD6 0%, #7C3AED 100%);
-        color: white;
-        padding: 3rem 2rem;
-        border-radius: 16px;
+        background: linear-gradient(135deg, #1E2638 0%, #252E42 100%);
+        border: 1px solid rgba(61, 224, 165, 0.2);
+        box-shadow: 0 0 60px rgba(61, 224, 165, 0.07);
+        color: #F8FAFC;
+        padding: 3.5rem 2.5rem;
+        border-radius: 32px;
         margin-bottom: 2rem;
         text-align: center;
     }
-    .hero-section h1 { font-size: 2.2rem; font-weight: 700; margin: 0 0 0.5rem; }
-    .hero-section p  { font-size: 1.05rem; opacity: 0.9; margin: 0; }
+    .hero-section h1 {
+        font-family: 'Outfit', sans-serif !important;
+        font-size: 2.6rem;
+        font-weight: 800;
+        margin: 0 0 0.5rem;
+        background: linear-gradient(90deg, #3DE0A5, #60A5FA);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .hero-section p {
+        font-size: 1.05rem;
+        color: #94A3B8;
+        margin: 0;
+    }
+
+    /* ── Dataframes ── */
+    .stDataFrame { border-radius: 16px !important; overflow: hidden; }
+    [data-testid="stDataFrameResizable"] {
+        border: 1px solid rgba(255,255,255,0.06) !important;
+        border-radius: 16px !important;
+    }
+
+    /* ── Code blocks ── */
+    code, pre {
+        font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+        background: #252E42 !important;
+        border-radius: 8px !important;
+        color: #3DE0A5 !important;
+    }
 </style>
 """
 
@@ -242,7 +388,8 @@ GLOBAL_CSS = """
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def page_header(icon: str, title: str, subtitle: str = "") -> str:
-    sub = f"<p style='margin:0.2rem 0 0;font-size:0.82rem;opacity:0.85'>{subtitle}</p>" if subtitle else ""
+    sub = (f"<p style='margin:0.3rem 0 0;font-size:0.83rem;color:#94A3B8'>"
+           f"{subtitle}</p>") if subtitle else ""
     return f"<div class='icm-header'><h2>{icon} {title}</h2>{sub}</div>"
 
 
@@ -250,14 +397,17 @@ def ew_badge_html(level: str) -> str:
     color = EW_COLORS.get(level, TEXT_SEC)
     icons = {"GREEN": "🟢", "AMBER": "🟡", "RED": "🔴"}
     icon  = icons.get(level, "⚪")
-    return f'<span class="ew-badge" style="background:{color}">{icon} {level}</span>'
+    return (f'<span class="ew-badge" style="background:rgba(61,224,165,0.12);'
+            f'color:{color};border:1px solid {color}40">{icon} {level}</span>')
 
 
 def status_badge_html(status: str) -> str:
     key   = status.replace("ProcessStatus.", "").lower()
     color = STATUS_COLORS.get(key, TEXT_SEC)
     label = STATUS_LABELS.get(key, key.upper())
-    return f'<span class="status-badge" style="background:{color}">{label}</span>'
+    return (f'<span class="status-badge" '
+            f'style="background:{color}22;color:{color};border:1px solid {color}44">'
+            f'{label}</span>')
 
 
 def rule_icon(passed) -> str:

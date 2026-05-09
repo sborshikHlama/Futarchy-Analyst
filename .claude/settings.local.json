@@ -4,7 +4,13 @@
       "Bash(pip install *)",
       "Bash(UMIA_ENV=demo python -c \"from utils.sentiment import analyze_batch; print\\(analyze_batch\\(['Bitcoin bullish signal', 'market crash incoming'], 'social'\\)\\)\")",
       "Bash(UMIA_ENV=demo python -c ' *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(python -c ' *)",
+      "Bash(pip show *)",
+      "Bash(UMIA_ENV=demo streamlit run app.py --server.port 8501 --server.headless false)",
+      "PowerShell(cd \"C:\\\\Users\\\\zvere\\\\Downloads\\\\final_project\\\\Futarchy-Analyst\"; $env:UMIA_ENV=\"demo\"; python -m streamlit run app.py --server.port 8501)",
+      "PowerShell(cd \"C:\\\\Users\\\\zvere\\\\Downloads\\\\final_project\\\\Futarchy-Analyst\"; $env:UMIA_ENV=\"demo\"; python -m streamlit run app.py --server.port 8501 --browser.gatherUsageStats false)",
+      "PowerShell(Start-Process \"http://localhost:8501\")"
     ]
   }
 }
