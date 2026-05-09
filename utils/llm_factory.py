@@ -37,6 +37,7 @@ log = logging.getLogger(__name__)
 _DEFAULT_MODELS: dict[str, str] = {
     "anthropic": "claude-opus-4-6",
     "openai":    "gpt-4o",
+    "grok":      "grok-3",
 }
 
 
@@ -89,7 +90,7 @@ class LLMClient:
         """
         if self.provider == "anthropic":
             return self._complete_anthropic(system, user_message, max_tokens)
-        if self.provider == "openai":
+        if self.provider in ("openai", "grok"):
             return self._complete_openai(system, user_message, max_tokens)
         raise ValueError(f"Nepodporovaný LLM provider: {self.provider!r}")
 
@@ -105,12 +106,17 @@ class LLMClient:
             try:
                 import openai  # type: ignore
             except ImportError:
-                raise ImportError(
-                    "openai balíček není nainstalován. "
-                    "Přidej 'langchain-openai' nebo 'openai' do requirements.txt "
-                    "a spusť 'pip install openai'."
-                )
+                raise ImportError("openai package not installed. Run: pip install openai")
             return openai.OpenAI()
+
+        if provider == "grok":
+            try:
+                import openai  # type: ignore
+            except ImportError:
+                raise ImportError("openai package not installed. Run: pip install openai")
+            # xAI Grok is OpenAI-compatible. Key from XAI_API_KEY or ANTHROPIC_API_KEY.
+            api_key = os.getenv("XAI_API_KEY") or os.getenv("ANTHROPIC_API_KEY")
+            return openai.OpenAI(api_key=api_key, base_url="https://api.x.ai/v1")
 
         raise ValueError(
             f"Nepodporovaný LLM_PROVIDER={provider!r}. "
