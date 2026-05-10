@@ -20,15 +20,16 @@ export async function POST(req: NextRequest) {
   try {
     switch (event.type) {
       case 'checkout.session.completed': {
-        const cs  = event.data.object as Stripe.CheckoutSession
+        const cs  = event.data.object as Stripe.Checkout.Session
         const sub = await stripe.subscriptions.retrieve(cs.subscription as string)
+        const periodEnd = (sub as unknown as { current_period_end: number }).current_period_end
         await prisma.user.update({
           where: { stripeCustomerId: cs.customer as string },
           data: {
             subscriptionId:     sub.id,
             subscriptionStatus: sub.status,
             plan:               'pro',
-            currentPeriodEnd:   new Date(sub.current_period_end * 1000),
+            currentPeriodEnd:   new Date(periodEnd * 1000),
           },
         })
         break
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
           data: {
             subscriptionStatus: sub.status,
             plan:               sub.status === 'active' ? 'pro' : 'free',
-            currentPeriodEnd:   new Date(sub.current_period_end * 1000),
+            currentPeriodEnd:   new Date(((sub as unknown as { current_period_end: number }).current_period_end) * 1000),
           },
         })
         break

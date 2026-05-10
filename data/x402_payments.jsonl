@@ -8,3 +8,5 @@
 {"event": "apify_x402_payment", "market_id": "metadao_p6", "actor": "apify/google-search-scraper", "paid": false, "protocol": "mock", "chain": null, "currency": null, "items_received": 3, "timestamp": "2026-05-09T20:14:34.966088+00:00"}
 {"event": "apify_x402_payment", "market_id": "metadao_p7", "actor": "apify/telegram-scraper", "paid": false, "protocol": "mock", "chain": null, "currency": null, "items_received": 5, "timestamp": "2026-05-09T20:14:34.967097+00:00"}
 {"event": "apify_x402_payment", "market_id": "metadao_p7", "actor": "apify/google-search-scraper", "paid": false, "protocol": "mock", "chain": null, "currency": null, "items_received": 3, "timestamp": "2026-05-09T20:14:34.968022+00:00"}
+{"event": "apify_x402_payment", "market_id": "metadao_p3", "actor": "apify/telegram-scraper", "paid": false, "protocol": "mock", "chain": null, "currency": null, "items_received": 5, "timestamp": "2026-05-10T09:24:18.254224+00:00"}
+{"event": "apify_x402_payment", "market_id": "metadao_p3", "actor": "apify/google-search-scraper", "paid": false, "protocol": "mock", "chain": null, "currency": null, "items_received": 3, "timestamp": "2026-05-10T09:24:18.256787+00:00"}
