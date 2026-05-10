@@ -325,18 +325,57 @@ h1, h2, h3, h4, h5, h6 {
 .nav-desktop { display: flex; }
 .nav-burger  { display: none; }
 
+/* ── Main content offset (below fixed header) ────────────────────────────────── */
+.main-content { padding-top: 72px; }
+
+/* ── Verdict bar: 4 cells in a row ──────────────────────────────────────────── */
+.verdict-bar-wrap { display: flex; width: 100%; }
+
+/* ── Memo table: desktop visible, mobile hidden ──────────────────────────────── */
+.memo-desktop-table { display: table; }
+.memo-mobile-cards  { display: none !important; }
+
+/* ── Hero logo: visible on desktop ──────────────────────────────────────────── */
+.hero-logo-wrap { display: flex; }
+
 /* ── Responsive ─────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
+  /* Nav */
   .nav-desktop { display: none !important; }
   .nav-burger  { display: block !important; }
 
-  .footer-inner {
-    grid-template-columns: 1fr;
-    gap: 32px;
+  /* Header height on mobile stays 72px, but mobile drawer offset */
+  .nav-mobile-drawer { top: 72px !important; }
+
+  /* Main padding */
+  .main-content { padding-top: 72px; }
+
+  /* Footer */
+  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+
+  /* Section padding */
+  section { padding-left: 16px !important; padding-right: 16px !important; }
+
+  /* Hero: hide big logo, adjust headline */
+  .hero-logo-wrap { display: none !important; }
+
+  section h1 {
+    font-size: 32px !important;
+    line-height: 1.15 !important;
   }
 
-  /* Hero headline */
-  section h1 { font-size: 32px !important; }
+  /* CTA buttons: stack vertically */
+  .hero-cta-group {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .hero-cta-group .btn-primary,
+  .hero-cta-group .btn-ghost {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 14px 24px !important;
+    font-size: 15px !important;
+  }
 
   /* How-it-works: 4-col → 1-col */
   .grid-cols-4 { grid-template-columns: 1fr !important; }
@@ -344,8 +383,30 @@ h1, h2, h3, h4, h5, h6 {
   /* Stats: 4-col → 2-col */
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
 
-  /* Section padding */
-  section { padding-left: 16px !important; padding-right: 16px !important; }
+  /* Memo table → cards */
+  .memo-desktop-table { display: none !important; }
+  .memo-mobile-cards  { display: flex !important; }
+
+  /* Track record strip: flex-wrap → 2-col grid */
+  .track-strip {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
+    padding: 16px !important;
+  }
+
+  /* Verdict bar: 2×2 grid on mobile */
+  .verdict-bar-wrap {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .verdict-cell {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+  .verdict-cell:nth-child(odd)  { border-right: 1px solid var(--border) !important; }
+  .verdict-cell:nth-child(3),
+  .verdict-cell:nth-child(4)   { border-bottom: none !important; }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────────────── */

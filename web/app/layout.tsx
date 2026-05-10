@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <Nav />
-        <main className="fade-in" style={{ paddingTop: 64 }}>{children}</main>
+        <main className="fade-in main-content">{children}</main>
         <Footer />
       </body>
     </html>

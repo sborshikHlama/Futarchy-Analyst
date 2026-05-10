@@ -38,7 +38,7 @@ export default function Nav() {
           left: 0,
           right: 0,
           zIndex: 100,
-          height: 64,
+          height: 72,
           background: 'rgba(21, 27, 43, 0.85)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
@@ -46,8 +46,8 @@ export default function Nav() {
         }}
       >
         <div
-          className="mx-auto flex items-center justify-between h-full px-6"
-          style={{ maxWidth: 1200 }}
+          className="mx-auto flex items-center justify-between h-full"
+          style={{ maxWidth: 1200, padding: '0 32px' }}
         >
           {/* Logo */}
           <Link
@@ -129,9 +129,13 @@ export default function Nav() {
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              padding: 4,
-              color: '#ffffff',
+              width: 44,
+              height: 44,
               display: 'none',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: -10,
+              color: '#ffffff',
             }}
           >
             {open ? (
@@ -156,7 +160,7 @@ export default function Nav() {
           className="nav-mobile-drawer"
           style={{
             position: 'fixed',
-            top: 64,
+            top: 72,
             left: 0,
             right: 0,
             zIndex: 99,

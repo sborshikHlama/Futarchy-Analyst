@@ -91,7 +91,7 @@ export default function HomeClient({ tr, latest }: { tr: TrackRecord; latest: Me
       >
         <div className="hero-bg" />
         <div className="mx-auto" style={{ maxWidth: 780, position: 'relative', zIndex: 1 }}>
-          <div className="mb-8"><HeroLogo /></div>
+          <div className="hero-logo-wrap mb-8"><HeroLogo /></div>
 
           <div
             className="mono mb-5 inline-flex items-center gap-2 rounded-full px-3 py-1 text-11 uppercase tracking-widest"
@@ -121,7 +121,7 @@ export default function HomeClient({ tr, latest }: { tr: TrackRecord; latest: Me
             An autonomous research analyst that reads every signal in a decision market, publishes its memo, and bets its own treasury on the outcome.
           </p>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="hero-cta-group flex flex-wrap gap-3">
             <Link href="/memos" className="btn-primary">
               View Track Record <ArrowRight size={14} />
             </Link>

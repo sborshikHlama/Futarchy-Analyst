@@ -6,11 +6,10 @@ import { useEffect, useRef, useState } from 'react'
 // Mascot body color (mint blob)
 const EYELID = '#3DD4A0'
 
-// Eye positions at 32×32 rendered size.
-// Tweak left/top/width/height if they feel off for the actual image.
+// Eye positions at 36×36 rendered size.
 const EYES = [
-  { left: 8,  top: 13, width: 6, height: 7 }, // left eye
-  { left: 18, top: 13, width: 6, height: 7 }, // right eye
+  { left: 9,  top: 15, width: 7, height: 8 }, // left eye
+  { left: 20, top: 15, width: 7, height: 8 }, // right eye
 ]
 
 async function sleep(ms: number) {
@@ -52,12 +51,12 @@ export default function GlitchLogo() {
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
       {/* Logo wrapper — eyelids positioned relative to the image */}
-      <span style={{ position: 'relative', display: 'inline-flex', flexShrink: 0, width: 32, height: 32 }}>
+      <span style={{ position: 'relative', display: 'inline-flex', flexShrink: 0, width: 36, height: 36 }}>
         <Image
           src="/Mochifi_logo.png"
           alt="Mochifi"
-          width={32}
-          height={32}
+          width={36}
+          height={36}
           style={{ borderRadius: 8, objectFit: 'contain' }}
           priority
         />
@@ -87,7 +86,7 @@ export default function GlitchLogo() {
         style={{
           fontFamily: 'Outfit, sans-serif',
           fontWeight: 700,
-          fontSize: 16,
+          fontSize: 18,
           letterSpacing: '-0.02em',
           color: 'var(--fg)',
           lineHeight: 1,

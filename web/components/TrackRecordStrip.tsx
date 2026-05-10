@@ -27,7 +27,7 @@ export default function TrackRecordStrip({ tr }: { tr: TrackRecord }) {
 
   return (
     <div
-      className="flex flex-wrap gap-8 rounded border p-6"
+      className="track-strip flex flex-wrap gap-8 rounded border p-6"
       style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}
     >
       <Stat label="Total Memos" value={String(tr.total)} />

@@ -25,7 +25,7 @@ export default function VerdictBar({ memo }: { memo: Memo }) {
 
   return (
     <div
-      className="flex w-full rounded border"
+      className="verdict-bar-wrap w-full rounded border"
       style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}
     >
       {/* POSITION */}
