@@ -12,17 +12,20 @@ Built for Umia Protocol Hackathon 2026 — "Best Agentic Venture" bounty.
 
 ---
 
-## Current project stage (as of 2026-05-09)
+## Current project stage (as of 2026-05-10)
 
 ### What is fully working
 - **Python pipeline** — all 4 phases run end-to-end in demo mode (`UMIA_ENV=demo`)
 - **3 demo markets** — `metadao_p3`, `metadao_p6`, `metadao_p7` (real MetaDAO historical proposals)
-- **Next.js web frontend** (`web/`) — Home, Memos, Memo Detail, Live Watch, Track Record pages
+- **Next.js web frontend** (`web/`) — Home, Memos, Memo Detail, Live Watch, Track Record, Pricing pages
+- **UI overhaul** — dark Bloomberg-style theme, Mochifi logo with blinking mascot eyes, mobile-responsive with burger menu, framer-motion animations, footer with social links
 - **Sentiment analysis** — HuggingFace Inference API wired into Phase 1; demo mode returns deterministic mock scores
 - **Source links** — every source in the weights table links to its origin (GitHub, Telegram, on-chain explorer, Twitter/X)
 - **PnL tracking** — two resolved memos (+3.33%, +3.00%); one open (`metadao_p7`)
 - **Multi-provider LLM** — `anthropic` (Claude Opus 4.6), `openai` (GPT-4o), `grok` (Grok-3) via `utils/llm_factory.py`
 - **Immutable audit trail** — sha256-hashed prompts, append-only events in every node
+- **Auth infrastructure** — NextAuth v4 + Prisma (SQLite) + Google OAuth wired end-to-end; Twitter/X OAuth configured; MetaMask SIWE backend ready
+- **Stripe infrastructure** — checkout, portal, webhook API routes implemented; pricing page with Free/Pro toggle built
 
 ### Known gaps / not yet wired
 - **Production ingest** — `UMIA_ENV=production` code paths exist but are untested end-to-end; Apify, GitHub, Etherscan calls need live keys
@@ -30,6 +33,59 @@ Built for Umia Protocol Hackathon 2026 — "Best Agentic Venture" bounty.
 - **Streamlit UI** — `app.py` is functional but `web/` is the primary user-facing frontend; Streamlit is secondary/admin
 - **On-chain publishing** — memos are JSON on disk; on-chain anchoring is roadmap only
 - **`$UMIA-ANALYST` token mechanics** — described in README, not implemented
+
+### ⚠️ Auth & Stripe — what the developer still needs to do manually
+
+#### Google OAuth (15 min)
+1. Go to [console.cloud.google.com](https://console.cloud.google.com) → APIs & Services → Credentials
+2. Create OAuth 2.0 Client ID (Web application)
+3. Authorized JavaScript origins: `http://localhost:3000`
+4. Authorized redirect URIs: `http://localhost:3000/api/auth/callback/google`
+5. Copy Client ID + Secret → `web/.env.local`: `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`
+6. Generate `NEXTAUTH_SECRET`: run `openssl rand -base64 32` in terminal
+
+#### Twitter / X OAuth (20 min)
+1. Go to [developer.twitter.com](https://developer.twitter.com) → Projects → Create App
+2. App Settings → Authentication Settings → OAuth 2.0 → ON
+3. Type: Web App; Callback URL: `http://localhost:3000/api/auth/callback/twitter`
+4. Copy Client ID + Secret → `web/.env.local`: `TWITTER_CLIENT_ID` / `TWITTER_CLIENT_SECRET`
+
+#### MetaMask (0 setup — works immediately once app runs)
+- Install MetaMask browser extension
+- Click "Connect MetaMask" on `/auth/signin` — signs SIWE message, creates wallet-linked user in DB
+- Test on Ethereum Sepolia testnet (signing is free, no real ETH needed)
+
+#### Stripe (30 min)
+1. Go to [dashboard.stripe.com](https://dashboard.stripe.com) → Products → Add Product
+2. Name: "Mochifi Pro" → Add two prices:
+   - Monthly: $9.00 / month → copy Price ID → `STRIPE_PRICE_MONTHLY=price_...`
+   - Yearly: $79.00 / year → copy Price ID → `STRIPE_PRICE_YEARLY=price_...`
+3. Copy Secret Key → `STRIPE_SECRET_KEY=sk_test_...`
+4. For local webhook testing, install [Stripe CLI](https://stripe.com/docs/stripe-cli) then run:
+   ```bash
+   stripe listen --forward-to localhost:3000/api/stripe/webhook
+   ```
+   Copy the `whsec_...` secret → `STRIPE_WEBHOOK_SECRET`
+5. Enable Customer Portal in Stripe Dashboard → Settings → Billing → Customer Portal
+
+#### Final `.env.local` template
+```
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=<openssl rand -base64 32>
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+TWITTER_CLIENT_ID=
+TWITTER_CLIENT_SECRET=
+
+DATABASE_URL=file:./dev.db
+
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_PRICE_MONTHLY=price_...
+STRIPE_PRICE_YEARLY=price_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
 
 ### Demo data state
 | Market ID | Position | Confidence | Outcome | PnL |
@@ -307,3 +363,9 @@ python -m early_warning.graph
 | 2026-05-09 | HuggingFace sentiment analysis wired into Phase 1 + web UI | Complete |
 | 2026-05-09 | Source links in SourceWeightsTable (GitHub/Telegram/Twitter/on-chain) | Complete |
 | 2026-05-09 | Fix: publish_node preserved resolved outcome across re-runs | Complete |
+| 2026-05-10 | UI overhaul — Mochifi logo, blinking mascot eyes, dark Bloomberg theme | Complete |
+| 2026-05-10 | Mobile responsive — burger menu, hero layout, memo cards, 2×2 stats grid | Complete |
+| 2026-05-10 | Animations — typing headline, framer-motion fade-in, count-up stats, dot grid | Complete |
+| 2026-05-10 | Footer — 3-col with nav + social links (X, GitHub, Telegram) | Complete |
+| 2026-05-10 | Auth — NextAuth v4 + Prisma SQLite + Google + Twitter/X + MetaMask SIWE | Complete (needs env keys) |
+| 2026-05-10 | Stripe — checkout + portal + webhook API routes + pricing page | Complete (needs Stripe keys) |

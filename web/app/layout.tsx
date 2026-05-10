@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 import './globals.css'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import Providers from '@/components/Providers'
 
 export const metadata: Metadata = {
   title: 'Mochifi',
@@ -10,7 +13,9 @@ export const metadata: Metadata = {
   icons: { icon: '/Mochifi_logo.png' },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession(authOptions)
+
   return (
     <html lang="en">
       <head>
@@ -21,9 +26,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/Mochifi_logo.png" type="image/png" />
       </head>
       <body>
-        <Nav />
-        <main className="fade-in main-content">{children}</main>
-        <Footer />
+        <Providers session={session}>
+          <Nav />
+          <main className="fade-in main-content">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   )
