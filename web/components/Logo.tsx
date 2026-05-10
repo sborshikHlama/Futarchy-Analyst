@@ -1,15 +1,15 @@
 import Image from 'next/image'
 
-/** Nav: маленький логотип + wordmark */
+/** Nav: small logo + wordmark */
 export function NavLogo() {
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
       <Image
-        src="/logo.png"
+        src="/Mochifi_logo.png"
         alt="Mochifi"
-        width={28}
-        height={28}
-        style={{ borderRadius: 8, objectFit: 'cover', objectPosition: 'center' }}
+        width={32}
+        height={32}
+        style={{ borderRadius: 8, objectFit: 'contain' }}
         priority
       />
       <span
@@ -28,7 +28,7 @@ export function NavLogo() {
   )
 }
 
-/** v1.0 badge рядом с логотипом */
+/** v1.0 badge */
 export function LogoBadge() {
   return (
     <span
@@ -50,16 +50,16 @@ export function LogoBadge() {
   )
 }
 
-/** Hero: большой логотип над заголовком */
+/** Hero: large logo above headline */
 export function HeroLogo() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 0 }}>
+    <div style={{ display: 'flex', alignItems: 'flex-start' }}>
       <Image
-        src="/logo.png"
+        src="/Mochifi_logo.png"
         alt="Mochifi"
         width={72}
         height={72}
-        style={{ borderRadius: 20, objectFit: 'cover', objectPosition: 'center' }}
+        style={{ borderRadius: 20, objectFit: 'contain' }}
         priority
       />
     </div>
